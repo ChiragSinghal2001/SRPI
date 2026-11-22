@@ -44,7 +44,7 @@ export const TenantMaintenancePage: React.FC = () => {
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase">
+                  <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase">
                     {ticket.propertyName}
                   </span>
                   <span
@@ -52,7 +52,7 @@ export const TenantMaintenancePage: React.FC = () => {
                       ticket.status === 'done'
                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                         : ticket.status === 'in_progress'
-                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
+                        ? 'bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300'
                         : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
                     }`}
                   >

@@ -262,7 +262,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             </span>
           </div>
           <div className="absolute top-3 right-3 z-10 pointer-events-none">
-            <span className="px-2.5 py-1 rounded bg-blue-600/80 backdrop-blur-xs text-white text-[11px] font-semibold tracking-wide uppercase border border-white/20">
+            <span className="px-2.5 py-1 rounded bg-emerald-600/80 backdrop-blur-xs text-white text-[11px] font-semibold tracking-wide uppercase border border-white/20">
               {afterLabel}
             </span>
           </div>
@@ -293,7 +293,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
           <div className="relative rounded-lg overflow-hidden border border-slate-800 bg-slate-900">
             <div className="absolute top-2.5 left-2.5 z-10">
-              <span className="px-2 py-0.5 rounded bg-blue-600/80 text-white text-xs font-semibold">
+              <span className="px-2 py-0.5 rounded bg-emerald-600/80 text-white text-xs font-semibold">
                 {afterLabel}
               </span>
             </div>

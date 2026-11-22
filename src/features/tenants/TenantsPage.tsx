@@ -95,7 +95,7 @@ export const TenantsPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setShowAssignModal(true)}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
         >
           <Plus size={15} /> Assign Tenant to Property
         </button>
@@ -120,7 +120,7 @@ export const TenantsPage: React.FC = () => {
                 >
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
                         {prop.name}
                       </span>
                       <h3 className="text-base font-bold text-slate-900 dark:text-white mt-0.5">
@@ -313,7 +313,7 @@ export const TenantsPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md"
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md"
                 >
                   {isSubmitting ? 'Assigning...' : 'Confirm Lease Assignment'}
                 </button>

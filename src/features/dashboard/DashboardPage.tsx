@@ -55,33 +55,33 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
       {/* Top Welcome & Quick Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-200">
             Portfolio Command Center
           </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
-            Welcome back, John
+          <h1 className="text-2xl sm:text-3xl font-black mt-1">
+            Welcome back, Unnati
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Here is your rental portfolio health and damage triage overview for today.
+          <p className="text-xs sm:text-sm text-emerald-100 mt-1 max-w-xl">
+            Here is your rental portfolio health, AI damage triage, and tamper-evident audit stream for today.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
           <button
             type="button"
             onClick={() => navigate('/properties')}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-emerald-800/40 hover:bg-emerald-800/60 text-white border border-emerald-400/30 text-xs font-semibold transition-colors backdrop-blur-xs"
           >
             <Plus size={14} /> Add Property
           </button>
           <button
             type="button"
             onClick={() => navigate('/inspections/new')}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all active:scale-95"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-emerald-900 font-bold text-xs shadow-md hover:bg-emerald-50 transition-all active:scale-95"
           >
-            <Camera size={15} /> Start New Inspection
+            <Camera size={15} /> Start New Inspection &rarr;
           </button>
         </div>
       </div>
@@ -131,12 +131,12 @@ export const DashboardPage: React.FC = () => {
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
-              <Camera size={18} className="text-blue-600" />
+              <Camera size={18} className="text-emerald-600" />
               Active Property Inspections
             </h2>
             <Link
               to="/inspections/new"
-              className="text-xs text-blue-600 hover:underline font-semibold"
+              className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
             >
               + Create Inspection
             </Link>
@@ -146,7 +146,7 @@ export const DashboardPage: React.FC = () => {
             {inspections?.map((insp) => (
               <div
                 key={insp.id}
-                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
+                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -179,7 +179,7 @@ export const DashboardPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigate(`/inspections/${insp.id}/review`)}
-                      className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs"
+                      className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
                     >
                       Review Findings <ChevronRight size={14} />
                     </button>
@@ -207,7 +207,7 @@ export const DashboardPage: React.FC = () => {
                 <AlertOctagon size={16} className="text-amber-600" />
                 Open Tenant Disputes
               </h2>
-              <Link to="/disputes" className="text-xs text-blue-600 hover:underline font-semibold">
+              <Link to="/disputes" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
                 View All ({openDisputes.length})
               </Link>
             </div>
@@ -236,7 +236,7 @@ export const DashboardPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigate('/disputes')}
-                      className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                      className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
                     >
                       Triage Dispute →
                     </button>
@@ -255,7 +255,7 @@ export const DashboardPage: React.FC = () => {
               </h2>
               <Link
                 to="/audit-logs"
-                className="text-xs text-blue-600 hover:underline font-semibold"
+                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
               >
                 Full Ledger
               </Link>
@@ -263,7 +263,7 @@ export const DashboardPage: React.FC = () => {
 
             <div className="space-y-3">
               {auditLogs?.slice(0, 3).map((log) => (
-                <div key={log.id} className="text-xs space-y-0.5 border-l-2 border-blue-500 pl-3">
+                <div key={log.id} className="text-xs space-y-0.5 border-l-2 border-emerald-500 pl-3">
                   <div className="flex justify-between items-center text-[11px]">
                     <span className="font-semibold text-slate-800 dark:text-slate-200">
                       {log.action}

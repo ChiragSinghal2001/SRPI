@@ -4,8 +4,8 @@ import { User, UserRole, AuthState } from '../../types/auth';
 // Default initial demo user (Landlord)
 const defaultDemoUser: User = {
   id: 'usr_landlord_1',
-  name: 'John Lock',
-  email: 'john.lock@realtycorp.com',
+  name: 'Unnati Gupta',
+  email: 'Unnati.lock@realtycorp.com',
   role: 'LANDLORD',
   company: 'Pacific Heights Property Management',
   phone: '+1 (555) 234-5678',
@@ -14,8 +14,8 @@ const defaultDemoUser: User = {
 
 const defaultDemoTenant: User = {
   id: 'usr_tenant_1',
-  name: 'Sarah Miller',
-  email: 'sarah.miller@example.com',
+  name: 'Anushka Raj Jain',
+  email: 'Anushka.miller@example.com',
   role: 'TENANT',
   phone: '+1 (555) 876-5432',
   assignedPropertyId: 'prop_1',

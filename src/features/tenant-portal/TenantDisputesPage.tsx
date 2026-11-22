@@ -58,7 +58,7 @@ export const TenantDisputesPage: React.FC = () => {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
                   <div>
-                    <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase">
+                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase">
                       Ticket #{disp.id}
                     </span>
                     <h3 className="font-bold text-base capitalize text-slate-900 dark:text-white mt-0.5">

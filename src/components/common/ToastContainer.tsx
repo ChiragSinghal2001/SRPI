@@ -35,14 +35,14 @@ export const ToastContainer: React.FC = () => {
     success: 'border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-100',
     error: 'border-red-300 dark:border-red-800 text-red-950 dark:text-red-100',
     warning: 'border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-100',
-    info: 'border-blue-300 dark:border-blue-800 text-blue-950 dark:text-blue-100',
+    info: 'border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-100',
   };
 
   const iconStyles = {
     success: 'text-emerald-600 dark:text-emerald-400',
     error: 'text-red-600 dark:text-red-400',
     warning: 'text-amber-600 dark:text-amber-400',
-    info: 'text-blue-600 dark:text-blue-400',
+    info: 'text-emerald-600 dark:text-emerald-400',
   };
 
   return (

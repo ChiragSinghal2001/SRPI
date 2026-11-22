@@ -36,11 +36,11 @@ export const TenantHomePage: React.FC = () => {
     []
   );
 
-  const property = properties?.[0]; // Sarah Miller's leased unit (Unit 4B)
+  const property = properties?.[0]; // Anushka Raj Jain's leased unit (Unit 4B)
   const tenant = property?.currentTenant;
 
   return (
-    <div className="space-y-6 pb-20">
+    <div className="space-y-6 pb-20 max-w-7xl mx-auto">
       {/* Welcome Banner */}
       <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -48,7 +48,7 @@ export const TenantHomePage: React.FC = () => {
             Tenant Resident Portal
           </span>
           <h1 className="text-2xl sm:text-3xl font-black mt-1">
-            Welcome home, {tenant?.name || 'Sarah'}
+            Welcome home, {tenant?.name || 'Anushka'}
           </h1>
           <p className="text-xs sm:text-sm text-emerald-100 mt-1">
             Access your verified condition reports, lease records, and dispute resolutions.

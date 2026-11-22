@@ -29,7 +29,7 @@ export const RoomAccordion: React.FC<RoomAccordionProps> = ({
       className={cn(
         'rounded-xl border transition-all overflow-hidden mb-3',
         isCurrent
-          ? 'border-blue-400 dark:border-blue-700 bg-white dark:bg-slate-900 shadow-sm'
+          ? 'border-emerald-400 dark:border-emerald-700 bg-white dark:bg-slate-900 shadow-sm'
           : 'border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60'
       )}
     >

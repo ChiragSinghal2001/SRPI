@@ -26,7 +26,7 @@ export const Timeline: React.FC<TimelineProps> = ({ events, className }) => {
         return (
           <div key={event.id} className="relative group">
             {/* Timeline Dot / Icon */}
-            <div className="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-white dark:bg-slate-900 border-2 border-blue-600 dark:border-blue-400 flex items-center justify-center text-blue-600 dark:text-blue-400">
+            <div className="absolute -left-6 top-0.5 w-5 h-5 rounded-full bg-white dark:bg-slate-900 border-2 border-emerald-600 dark:border-emerald-400 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Icon size={11} />
             </div>
 

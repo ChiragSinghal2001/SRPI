@@ -57,9 +57,8 @@ export const PropertyDetailPage: React.FC = () => {
   const timelineEvents: TimelineEvent[] = (inspections || []).map((insp) => ({
     id: insp.id,
     title: `${insp.type === 'move_out' ? 'Move-Out Inspection (AI Review)' : 'Move-In Baseline'} — ${insp.status.toUpperCase()}`,
-    description: `Conducted by ${insp.inspectorName}. ${
-      insp.findings.length > 0 ? `${insp.findings.length} findings reviewed.` : 'Baseline photos verified.'
-    }`,
+    description: `Conducted by ${insp.inspectorName}. ${insp.findings.length > 0 ? `${insp.findings.length} findings reviewed.` : 'Baseline photos verified.'
+      }`,
     timestamp: insp.scheduledDate,
     icon: insp.status === 'finalized' ? CheckCircle2 : FileCheck2,
     badge: insp.status,
@@ -89,7 +88,7 @@ export const PropertyDetailPage: React.FC = () => {
         <div className="flex-1 flex flex-col justify-between">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
                 Unit {property.unit || 'A'}
               </span>
               <span className="text-xs px-2.5 py-0.5 rounded-full font-bold uppercase bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
@@ -112,7 +111,7 @@ export const PropertyDetailPage: React.FC = () => {
             <button
               type="button"
               onClick={handleStartInspectionForProperty}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
             >
               <Camera size={15} /> Start Inspection For This Unit
             </button>
@@ -127,7 +126,7 @@ export const PropertyDetailPage: React.FC = () => {
           {/* Tenant Information Card */}
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
             <h2 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              <User size={16} className="text-blue-600" />
+              <User size={16} className="text-emerald-600" />
               Current Tenant & Lease
             </h2>
 
@@ -180,7 +179,7 @@ export const PropertyDetailPage: React.FC = () => {
           {/* Rooms Configured */}
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
             <h2 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              <Layers size={16} className="text-blue-600" />
+              <Layers size={16} className="text-emerald-600" />
               Inspection Rooms ({property.rooms.length})
             </h2>
             <div className="flex flex-wrap gap-2">
@@ -200,7 +199,7 @@ export const PropertyDetailPage: React.FC = () => {
         <div className="md:col-span-7 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
             <h2 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-              <History size={16} className="text-blue-600" />
+              <History size={16} className="text-emerald-600" />
               Inspection History & Certificates
             </h2>
             <span className="text-xs text-slate-400 font-medium">

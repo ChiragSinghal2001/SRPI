@@ -48,7 +48,7 @@ export const MaintenancePage: React.FC = () => {
 
   const columns: { status: MaintenanceStatus; title: string; color: string }[] = [
     { status: 'open', title: 'Open / Triage', color: 'border-amber-400 bg-amber-500/10' },
-    { status: 'in_progress', title: 'In Progress', color: 'border-blue-400 bg-blue-500/10' },
+    { status: 'in_progress', title: 'In Progress', color: 'border-teal-400 bg-teal-500/10' },
     { status: 'done', title: 'Completed', color: 'border-emerald-400 bg-emerald-500/10' },
   ];
 
@@ -102,19 +102,18 @@ export const MaintenancePage: React.FC = () => {
                     colTickets.map((ticket) => (
                       <div
                         key={ticket.id}
-                        className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-3 hover:border-blue-300 dark:hover:border-blue-700 transition-all"
+                        className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-3 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all"
                       >
                         <div>
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase">
+                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase">
                               {ticket.propertyName}
                             </span>
                             <span
-                              className={`text-[10px] font-bold uppercase px-1.5 py-0.2 rounded ${
-                                ticket.severity === 'major'
-                                  ? 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300'
-                                  : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                              }`}
+                              className={`text-[10px] font-bold uppercase px-1.5 py-0.2 rounded ${ticket.severity === 'major'
+                                ? 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300'
+                                : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                                }`}
                             >
                               {ticket.severity}
                             </span>
@@ -167,7 +166,7 @@ export const MaintenancePage: React.FC = () => {
                                     col.status === 'open' ? 'in_progress' : 'done'
                                   )
                                 }
-                                className="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold hover:bg-blue-600 hover:text-white transition-colors"
+                                className="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold hover:bg-emerald-600 hover:text-white transition-colors"
                               >
                                 {col.status === 'open' ? 'Start Work →' : 'Complete ✓'}
                               </button>

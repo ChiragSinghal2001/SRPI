@@ -78,7 +78,7 @@ export const ImageUploadTile: React.FC<ImageUploadTileProps> = ({
         capturedItem
           ? 'border-emerald-300 dark:border-emerald-800 shadow-xs'
           : required
-          ? 'border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600'
+          ? 'border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-600'
           : 'border-slate-200 dark:border-slate-800'
       )}
     >
@@ -159,20 +159,20 @@ export const ImageUploadTile: React.FC<ImageUploadTileProps> = ({
           onClick={triggerPicker}
           disabled={isProcessing}
           className={cn(
-            'w-full aspect-[4/3] rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-50/50 dark:hover:bg-blue-950/30 flex flex-col items-center justify-center gap-2 p-4 text-center cursor-pointer transition-colors active:scale-[0.98]',
+            'w-full aspect-[4/3] rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30 flex flex-col items-center justify-center gap-2 p-4 text-center cursor-pointer transition-colors active:scale-[0.98]',
             isProcessing && 'opacity-60 cursor-wait'
           )}
         >
           {isProcessing ? (
             <div className="flex flex-col items-center gap-2">
-              <RefreshCw size={24} className="text-blue-600 animate-spin" />
+              <RefreshCw size={24} className="text-emerald-600 animate-spin" />
               <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
                 Optimizing image...
               </span>
             </div>
           ) : (
             <>
-              <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shadow-xs">
+              <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-xs">
                 <Camera size={22} />
               </div>
               <div>
@@ -192,7 +192,7 @@ export const ImageUploadTile: React.FC<ImageUploadTileProps> = ({
       {uploadProgress !== undefined && uploadProgress < 100 && (
         <div className="w-full bg-slate-200 dark:bg-slate-700 h-1 rounded-full mt-2 overflow-hidden">
           <div
-            className="bg-blue-600 h-full transition-all duration-300"
+            className="bg-emerald-600 h-full transition-all duration-300"
             style={{ width: `${uploadProgress}%` }}
           />
         </div>

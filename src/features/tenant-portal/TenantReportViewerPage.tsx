@@ -83,7 +83,7 @@ export const TenantReportViewerPage: React.FC = () => {
         propertyName: inspection.propertyName,
         unit: inspection.unit,
         tenantId: 'usr_tenant_1',
-        tenantName: 'Sarah Miller',
+        tenantName: 'Anushka Raj Jain',
         room: disputeTargetItem.room,
         object: disputeTargetItem.object,
         assessedAmount: disputeTargetItem.landlordReview.estimatedCost || 100,
@@ -216,7 +216,7 @@ export const TenantReportViewerPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 block uppercase">
+                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 block uppercase">
                     Move-out Inspection
                   </span>
                   <div className="aspect-[4/3] rounded-xl overflow-hidden bg-slate-950 border border-slate-200 dark:border-slate-700">

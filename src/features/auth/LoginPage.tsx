@@ -30,7 +30,7 @@ export const LoginPage: React.FC = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'john.lock@realtycorp.com',
+      email: 'Unnati.lock@realtycorp.com',
       password: 'password123',
       role: 'LANDLORD',
     },
@@ -47,7 +47,7 @@ export const LoginPage: React.FC = () => {
         setCredentials({
           user: {
             id: 'usr_landlord_1',
-            name: 'John Lock',
+            name: 'Unnati Gupta',
             email: values.email,
             role: 'LANDLORD',
             company: 'Pacific Heights Property Management',
@@ -64,7 +64,7 @@ export const LoginPage: React.FC = () => {
         setCredentials({
           user: {
             id: 'usr_tenant_1',
-            name: 'Sarah Miller',
+            name: 'Anushka Raj Jain',
             email: values.email,
             role: 'TENANT',
             assignedPropertyId: 'prop_1',
@@ -81,10 +81,10 @@ export const LoginPage: React.FC = () => {
 
   const handleQuickFill = (role: UserRole) => {
     if (role === 'LANDLORD') {
-      setValue('email', 'john.lock@realtycorp.com');
+      setValue('email', 'Unnati.lock@realtycorp.com');
       setValue('role', 'LANDLORD');
     } else {
-      setValue('email', 'sarah.miller@example.com');
+      setValue('email', 'Anushka.miller@example.com');
       setValue('role', 'TENANT');
     }
   };
@@ -105,22 +105,20 @@ export const LoginPage: React.FC = () => {
           <button
             type="button"
             onClick={() => handleQuickFill('LANDLORD')}
-            className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all ${
-              selectedRole === 'LANDLORD'
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
+            className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all ${selectedRole === 'LANDLORD'
+              ? 'bg-emerald-600 text-white shadow-md'
+              : 'text-slate-400 hover:text-slate-200'
+              }`}
           >
             <UserCheck size={14} /> Landlord
           </button>
           <button
             type="button"
             onClick={() => handleQuickFill('TENANT')}
-            className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all ${
-              selectedRole === 'TENANT'
-                ? 'bg-emerald-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
+            className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all ${selectedRole === 'TENANT'
+              ? 'bg-emerald-600 text-white shadow-md'
+              : 'text-slate-400 hover:text-slate-200'
+              }`}
           >
             <UserCheck size={14} /> Tenant
           </button>
@@ -141,7 +139,7 @@ export const LoginPage: React.FC = () => {
             <input
               {...register('email')}
               type="email"
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500 transition-colors"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500 transition-colors"
               placeholder="name@example.com"
             />
           </div>
@@ -163,7 +161,7 @@ export const LoginPage: React.FC = () => {
             <input
               {...register('password')}
               type="password"
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500 transition-colors"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500 transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -175,7 +173,7 @@ export const LoginPage: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full mt-2 py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2"
+          className="w-full mt-2 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <span>Signing in...</span>
@@ -190,7 +188,7 @@ export const LoginPage: React.FC = () => {
 
       <div className="mt-6 pt-4 border-t border-slate-700 text-center text-xs text-slate-400">
         Don&apos;t have an account yet?{' '}
-        <Link to="/signup" className="text-blue-400 hover:underline font-semibold">
+        <Link to="/signup" className="text-emerald-400 hover:underline font-semibold">
           Create an account
         </Link>
       </div>

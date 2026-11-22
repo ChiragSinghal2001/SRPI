@@ -93,15 +93,14 @@ export const DisputesPage: React.FC = () => {
                 <div
                   key={item.id}
                   onClick={() => setSelectedDisputeId(item.id)}
-                  className={`p-4 rounded-xl border cursor-pointer transition-all space-y-2 ${
-                    isSelected
-                      ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 shadow-xs'
-                      : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300'
-                  }`}
+                  className={`p-4 rounded-xl border cursor-pointer transition-all space-y-2 ${isSelected
+                    ? 'border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/40 shadow-xs'
+                    : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300'
+                    }`}
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 block">
+                      <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 block">
                         {item.propertyName} (Unit {item.unit || '4B'})
                       </span>
                       <h3 className="font-bold text-sm capitalize text-slate-900 dark:text-white">
@@ -110,13 +109,12 @@ export const DisputesPage: React.FC = () => {
                     </div>
 
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                        item.status === 'open'
-                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                          : item.status === 'accepted'
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${item.status === 'open'
+                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                        : item.status === 'accepted'
                           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                           : 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300'
-                      }`}
+                        }`}
                     >
                       {item.status}
                     </span>
@@ -142,7 +140,7 @@ export const DisputesPage: React.FC = () => {
             <div className="lg:col-span-7 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
               <div className="flex justify-between items-start pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div>
-                  <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">
+                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase">
                     Dispute ID #{activeDispute.id}
                   </span>
                   <h2 className="text-lg font-bold capitalize text-slate-900 dark:text-white mt-0.5">
@@ -199,7 +197,7 @@ export const DisputesPage: React.FC = () => {
                     value={resolutionReason}
                     onChange={(e) => setResolutionReason(e.target.value)}
                     placeholder="State reason for accepting or rejecting this dispute..."
-                    className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                    className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
 
                   <div className="flex items-center gap-3 pt-2">

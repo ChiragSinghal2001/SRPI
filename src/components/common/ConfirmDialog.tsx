@@ -105,7 +105,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
               'px-4 py-2 text-sm font-semibold rounded-lg text-white shadow-xs transition-colors flex items-center gap-1.5',
               isDestructive
                 ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-blue-600 hover:bg-blue-700',
+                : 'bg-emerald-600 hover:bg-emerald-700',
               isLoading && 'opacity-60 cursor-wait'
             )}
           >

@@ -84,7 +84,7 @@ export const SignupPage: React.FC = () => {
             onClick={() => setValue('role', 'LANDLORD')}
             className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
               selectedRole === 'LANDLORD'
-                ? 'bg-blue-600 text-white shadow-md'
+                ? 'bg-emerald-600 text-white shadow-md'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -114,7 +114,7 @@ export const SignupPage: React.FC = () => {
             <User size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               {...register('name')}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
               placeholder="e.g. Jane Doe"
             />
           </div>
@@ -131,7 +131,7 @@ export const SignupPage: React.FC = () => {
             <input
               {...register('email')}
               type="email"
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
               placeholder="jane@example.com"
             />
           </div>
@@ -148,7 +148,7 @@ export const SignupPage: React.FC = () => {
             <input
               {...register('password')}
               type="password"
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
               placeholder="At least 6 characters"
             />
           </div>
@@ -164,7 +164,7 @@ export const SignupPage: React.FC = () => {
             <Phone size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               {...register('phone')}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
               placeholder="+1 (555) 000-0000"
             />
           </div>
@@ -180,7 +180,7 @@ export const SignupPage: React.FC = () => {
               <Building size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 {...register('company')}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
                 placeholder="Pacific Realty Corp"
               />
             </div>
@@ -190,7 +190,7 @@ export const SignupPage: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full mt-4 py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2"
+          className="w-full mt-4 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <span>Creating account...</span>
@@ -205,7 +205,7 @@ export const SignupPage: React.FC = () => {
 
       <div className="mt-5 pt-4 border-t border-slate-700 text-center text-xs text-slate-400">
         Already registered?{' '}
-        <Link to="/login" className="text-blue-400 hover:underline font-semibold">
+        <Link to="/login" className="text-emerald-400 hover:underline font-semibold">
           Sign In
         </Link>
       </div>

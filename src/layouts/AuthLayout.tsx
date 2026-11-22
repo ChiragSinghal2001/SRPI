@@ -6,14 +6,14 @@ export const AuthLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Decorative Gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/10 blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-600/10 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10 px-4">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600 text-white shadow-xl mb-4">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-600 text-white shadow-xl mb-4">
           <Building2 size={32} />
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-          Smart<span className="text-blue-500">Inspector</span>
+          Smart<span className="text-emerald-500">Inspector</span>
         </h1>
         <p className="mt-2 text-sm text-slate-400">
           AI-Powered Property Condition & Damage Verification Platform

@@ -25,7 +25,7 @@ export const AuditLogPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
             <ShieldCheck size={15} /> Immutable Event Ledger
           </div>
           <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
@@ -46,7 +46,7 @@ export const AuditLogPage: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search action or actor name..."
-            className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-hidden focus:border-blue-500"
+            className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-hidden focus:border-emerald-500"
           />
         </div>
 
@@ -57,11 +57,10 @@ export const AuditLogPage: React.FC = () => {
               key={role}
               type="button"
               onClick={() => setFilterRole(role)}
-              className={`px-3 py-1.5 rounded-lg font-semibold transition-colors ${
-                filterRole === role
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
-              }`}
+              className={`px-3 py-1.5 rounded-lg font-semibold transition-colors ${filterRole === role
+                ? 'bg-emerald-600 text-white'
+                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400'
+                }`}
             >
               {role}
             </button>
@@ -100,13 +99,12 @@ export const AuditLogPage: React.FC = () => {
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-1.5">
                       <span
-                        className={`w-2 h-2 rounded-full ${
-                          log.actorRole === 'SYSTEM'
-                            ? 'bg-purple-500'
-                            : log.actorRole === 'LANDLORD'
-                            ? 'bg-blue-500'
-                            : 'bg-emerald-500'
-                        }`}
+                        className={`w-2 h-2 rounded-full ${log.actorRole === 'SYSTEM'
+                          ? 'bg-purple-500'
+                          : log.actorRole === 'LANDLORD'
+                            ? 'bg-emerald-500'
+                            : 'bg-teal-500'
+                          }`}
                       />
                       <span className="font-semibold text-slate-900 dark:text-white">
                         {log.actorName}

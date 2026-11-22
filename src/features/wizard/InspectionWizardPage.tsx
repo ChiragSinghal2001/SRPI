@@ -140,7 +140,7 @@ export const InspectionWizardPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
               Inspection Capture Wizard
             </span>
             {lastAutosaved && (
@@ -181,7 +181,7 @@ export const InspectionWizardPage: React.FC = () => {
               className={cn(
                 'flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
                 isCurrent
-                  ? 'border-blue-600 bg-blue-50/60 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 shadow-xs font-semibold'
+                  ? 'border-emerald-600 bg-emerald-50/60 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 shadow-xs font-semibold'
                   : isDone
                   ? 'border-emerald-200 bg-emerald-50/30 dark:bg-emerald-950/20 text-slate-700 dark:text-slate-300'
                   : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-400'
@@ -191,7 +191,7 @@ export const InspectionWizardPage: React.FC = () => {
                 className={cn(
                   'w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0',
                   isCurrent
-                    ? 'bg-blue-600 text-white font-bold'
+                    ? 'bg-emerald-600 text-white font-bold'
                     : isDone
                     ? 'bg-emerald-600 text-white'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
@@ -229,7 +229,7 @@ export const InspectionWizardPage: React.FC = () => {
                 className={cn(
                   'p-4 rounded-xl border-2 text-left flex flex-col gap-1 transition-all',
                   inspectionType === 'move_in'
-                    ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white'
+                    ? 'border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-950 dark:text-white'
                     : 'border-slate-200 dark:border-slate-800 hover:border-slate-300'
                 )}
               >
@@ -239,7 +239,7 @@ export const InspectionWizardPage: React.FC = () => {
                     className={cn(
                       'w-4 h-4 rounded-full border-2',
                       inspectionType === 'move_in'
-                        ? 'border-blue-600 bg-blue-600'
+                        ? 'border-emerald-600 bg-emerald-600'
                         : 'border-slate-300'
                     )}
                   />
@@ -255,7 +255,7 @@ export const InspectionWizardPage: React.FC = () => {
                 className={cn(
                   'p-4 rounded-xl border-2 text-left flex flex-col gap-1 transition-all',
                   inspectionType === 'move_out'
-                    ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-blue-950 dark:text-white'
+                    ? 'border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-950 dark:text-white'
                     : 'border-slate-200 dark:border-slate-800 hover:border-slate-300'
                 )}
               >
@@ -265,7 +265,7 @@ export const InspectionWizardPage: React.FC = () => {
                     className={cn(
                       'w-4 h-4 rounded-full border-2',
                       inspectionType === 'move_out'
-                        ? 'border-blue-600 bg-blue-600'
+                        ? 'border-emerald-600 bg-emerald-600'
                         : 'border-slate-300'
                     )}
                   />
@@ -285,7 +285,7 @@ export const InspectionWizardPage: React.FC = () => {
             <select
               value={selectedPropertyId || ''}
               onChange={(e) => handlePropertyChange(e.target.value)}
-              className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-hidden focus:border-blue-500"
+              className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-hidden focus:border-emerald-500"
             >
               {MOCK_PROPERTIES.map((prop) => (
                 <option key={prop.id} value={prop.id}>
@@ -341,7 +341,7 @@ export const InspectionWizardPage: React.FC = () => {
                   className={cn(
                     'flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-semibold whitespace-nowrap transition-all shadow-2xs',
                     isActive
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
                       : isRoomComplete
                       ? 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800'
                       : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800'
@@ -366,7 +366,7 @@ export const InspectionWizardPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Layers size={20} className="text-blue-600" />
+                  <Layers size={20} className="text-emerald-600" />
                   {activeRoom}
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -417,7 +417,7 @@ export const InspectionWizardPage: React.FC = () => {
               </p>
             </div>
             <div className="text-right">
-              <span className="text-2xl font-black text-blue-600">{completionPercentage}%</span>
+              <span className="text-2xl font-black text-emerald-600">{completionPercentage}%</span>
               <span className="block text-[10px] uppercase font-bold text-slate-400">
                 Complete
               </span>
@@ -517,7 +517,7 @@ export const InspectionWizardPage: React.FC = () => {
       {/* STEP 4: SUBMIT & TRIGGER AI */}
       {currentStep === 4 && (
         <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-6">
-          <div className="w-16 h-16 rounded-2xl bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center shadow-sm">
             <Sparkles size={32} />
           </div>
 
@@ -553,7 +553,7 @@ export const InspectionWizardPage: React.FC = () => {
             type="button"
             onClick={handleSubmitInspection}
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base shadow-lg transition-transform active:scale-98 disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm sm:text-base shadow-lg transition-transform active:scale-98 disabled:opacity-50"
           >
             {isSubmitting ? (
               <span>Triggering AI Engine...</span>
@@ -586,7 +586,7 @@ export const InspectionWizardPage: React.FC = () => {
           <button
             type="button"
             onClick={() => dispatch(nextStep())}
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-md transition-colors"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold shadow-md transition-colors"
           >
             Next Step <ChevronRight size={16} />
           </button>

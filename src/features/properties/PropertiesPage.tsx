@@ -117,7 +117,7 @@ export const PropertiesPage: React.FC = () => {
         <button
           type="button"
           onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-95"
         >
           <Plus size={15} /> Add New Property
         </button>
@@ -131,7 +131,7 @@ export const PropertiesPage: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by property name, address, or city..."
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm focus:outline-hidden focus:border-blue-500 shadow-2xs"
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm focus:outline-hidden focus:border-emerald-500 shadow-2xs"
         />
       </div>
 
@@ -148,7 +148,7 @@ export const PropertiesPage: React.FC = () => {
             <div
               key={prop.id}
               onClick={() => navigate(`/properties/${prop.id}`)}
-              className="group cursor-pointer rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-blue-400 dark:hover:border-blue-600 transition-all hover:shadow-md flex flex-col justify-between"
+              className="group cursor-pointer rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xs hover:border-emerald-400 dark:hover:border-emerald-600 transition-all hover:shadow-md flex flex-col justify-between"
             >
               <div>
                 {/* Image & Status Badge */}
@@ -160,13 +160,12 @@ export const PropertiesPage: React.FC = () => {
                   />
                   <div className="absolute top-3 left-3">
                     <span
-                      className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${
-                        prop.status === 'occupied'
-                          ? 'bg-emerald-600/90 text-white'
-                          : prop.status === 'under_inspection'
+                      className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${prop.status === 'occupied'
+                        ? 'bg-emerald-600/90 text-white'
+                        : prop.status === 'under_inspection'
                           ? 'bg-amber-600/90 text-white'
                           : 'bg-slate-800/90 text-slate-200'
-                      }`}
+                        }`}
                     >
                       {prop.status.replace('_', ' ')}
                     </span>
@@ -176,7 +175,7 @@ export const PropertiesPage: React.FC = () => {
                 {/* Details */}
                 <div className="p-5 space-y-3">
                   <div>
-                    <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
                       {prop.name}
                     </h3>
                     <p className="text-xs text-slate-500 flex items-center gap-1 mt-1">
@@ -211,7 +210,7 @@ export const PropertiesPage: React.FC = () => {
                   <Users size={13} />
                   {prop.currentTenant ? prop.currentTenant.name : 'No Active Lease'}
                 </span>
-                <span className="text-blue-600 dark:text-blue-400 font-semibold flex items-center gap-0.5">
+                <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-0.5">
                   View Detail <ChevronRight size={13} />
                 </span>
               </div>
@@ -247,7 +246,7 @@ export const PropertiesPage: React.FC = () => {
                   value={propertyName}
                   onChange={(e) => setPropertyName(e.target.value)}
                   placeholder="e.g. Parkview Residences - Unit 2B"
-                  className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                  className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                 />
               </div>
 
@@ -261,7 +260,7 @@ export const PropertiesPage: React.FC = () => {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="123 Main Street"
-                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
                 <div>
@@ -272,7 +271,7 @@ export const PropertiesPage: React.FC = () => {
                     value={unit}
                     onChange={(e) => setUnit(e.target.value)}
                     placeholder="2B"
-                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -287,7 +286,7 @@ export const PropertiesPage: React.FC = () => {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="Springfield"
-                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
                 <div>
@@ -299,7 +298,7 @@ export const PropertiesPage: React.FC = () => {
                     value={stateCode}
                     onChange={(e) => setStateCode(e.target.value)}
                     placeholder="OR"
-                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
                 <div>
@@ -311,7 +310,7 @@ export const PropertiesPage: React.FC = () => {
                     value={zip}
                     onChange={(e) => setZip(e.target.value)}
                     placeholder="97477"
-                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -324,7 +323,7 @@ export const PropertiesPage: React.FC = () => {
                   value={roomsInput}
                   onChange={(e) => setRoomsInput(e.target.value)}
                   placeholder="Living Room, Master Bedroom, Kitchen, Bathroom"
-                  className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-blue-500"
+                  className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                 />
                 <span className="text-[11px] text-slate-400 mt-0.5 block">
                   Defines the rooms to photograph in the inspection wizard.
@@ -342,7 +341,7 @@ export const PropertiesPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md"
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md"
                 >
                   {isSubmitting ? 'Saving...' : 'Add Property'}
                 </button>

@@ -165,7 +165,7 @@ export const AIReviewPage: React.FC = () => {
         </p>
         <button
           onClick={() => refetchInspection()}
-          className="mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold"
+          className="mt-4 px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold"
         >
           Retry Load
         </button>
@@ -216,7 +216,7 @@ export const AIReviewPage: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate(`/reports/${inspection.id}`)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition-colors"
           >
             <FileCheck2 size={16} /> Generate Final Report
           </button>
@@ -295,7 +295,7 @@ export const AIReviewPage: React.FC = () => {
                     className={cn(
                       'cursor-pointer transition-colors',
                       isSelected
-                        ? 'bg-blue-50/80 dark:bg-blue-950/50'
+                        ? 'bg-emerald-50/80 dark:bg-emerald-950/50'
                         : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
                     )}
                   >
@@ -324,8 +324,8 @@ export const AIReviewPage: React.FC = () => {
                         className={cn(
                           'text-xs font-semibold px-2 py-1 rounded-md transition-colors',
                           isSelected
-                            ? 'bg-blue-600 text-white'
-                            : 'text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950'
+                            ? 'bg-emerald-600 text-white'
+                            : 'text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950'
                         )}
                       >
                         Inspect
@@ -347,7 +347,7 @@ export const AIReviewPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-base font-bold text-slate-900 dark:text-white capitalize flex items-center gap-2">
-                  <Layers size={18} className="text-blue-600" />
+                  <Layers size={18} className="text-emerald-600" />
                   {currentFinding.room} — {currentFinding.object}
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -373,7 +373,7 @@ export const AIReviewPage: React.FC = () => {
             <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                  <Sparkles size={14} className="text-blue-600" />
+                  <Sparkles size={14} className="text-emerald-600" />
                   Original AI Detection
                 </span>
                 <StatusChip status={currentFinding.aiFinding.status} size="sm" />
@@ -417,12 +417,12 @@ export const AIReviewPage: React.FC = () => {
           <div className="lg:col-span-5 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-5 shadow-xs">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
               <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
-                <Edit3 size={16} className="text-blue-600" />
+                <Edit3 size={16} className="text-emerald-600" />
                 Landlord Override & Cost Triage
               </h3>
 
               {currentFinding.landlordReview.isEdited && (
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200">
                   Edited by Landlord
                 </span>
               )}
@@ -517,7 +517,7 @@ export const AIReviewPage: React.FC = () => {
                   step="5"
                   value={editCost}
                   onChange={(e) => setEditCost(parseFloat(e.target.value) || 0)}
-                  className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-semibold focus:outline-hidden focus:border-blue-500 font-mono"
+                  className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-semibold focus:outline-hidden focus:border-emerald-500 font-mono"
                   placeholder="0.00"
                 />
               </div>
@@ -535,7 +535,7 @@ export const AIReviewPage: React.FC = () => {
                 rows={3}
                 value={editNotes}
                 onChange={(e) => setEditNotes(e.target.value)}
-                className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:border-blue-500 leading-relaxed"
+                className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:border-emerald-500 leading-relaxed"
                 placeholder="Enter justification or instructions for contractor..."
               />
             </div>
@@ -546,7 +546,7 @@ export const AIReviewPage: React.FC = () => {
                 type="button"
                 onClick={handleSaveOverride}
                 disabled={isSaving}
-                className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50"
               >
                 <Save size={14} />
                 <span>{isSaving ? 'Saving Changes...' : 'Save Landlord Triage'}</span>

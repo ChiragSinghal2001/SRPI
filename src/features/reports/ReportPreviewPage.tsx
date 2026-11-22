@@ -69,7 +69,7 @@ export const ReportPreviewPage: React.FC = () => {
   const handleLockReportConfirm = async () => {
     setIsLocking(true);
     try {
-      await inspectionService.lockAndFinalizeReport(id, 'John Lock');
+      await inspectionService.lockAndFinalizeReport(id, 'Unnati Gupta');
       await refetch();
       setShowLockDialog(false);
       dispatch(
@@ -138,7 +138,7 @@ export const ReportPreviewPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowLockDialog(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-colors"
             >
               <Lock size={15} /> Lock & Finalize Report
             </button>
@@ -156,7 +156,7 @@ export const ReportPreviewPage: React.FC = () => {
         <div className="border-b-2 border-slate-900 dark:border-slate-100 pb-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <span className="text-xs font-black uppercase tracking-widest text-blue-600 dark:text-blue-400">
+              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
                 Official Condition Certificate
               </span>
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight mt-1">
@@ -175,7 +175,7 @@ export const ReportPreviewPage: React.FC = () => {
               </div>
               <div
                 onClick={handleCopyHash}
-                className="font-mono text-[10px] text-slate-500 dark:text-slate-400 cursor-pointer hover:text-blue-600 flex items-center gap-1 justify-end"
+                className="font-mono text-[10px] text-slate-500 dark:text-slate-400 cursor-pointer hover:text-emerald-600 flex items-center gap-1 justify-end"
                 title="Click to copy hash"
               >
                 <span>
@@ -217,12 +217,12 @@ export const ReportPreviewPage: React.FC = () => {
         </div>
 
         {/* Executive Damage Assessment & Deductions Summary */}
-        <div className="p-5 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="p-5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h3 className="font-bold text-sm text-blue-950 dark:text-blue-100">
+            <h3 className="font-bold text-sm text-emerald-950 dark:text-emerald-100">
               Executive Financial Damage Summary
             </h3>
-            <p className="text-xs text-blue-800/80 dark:text-blue-300 mt-0.5">
+            <p className="text-xs text-emerald-800/80 dark:text-emerald-300 mt-0.5">
               Itemized tenant deductions assessed based on photographic baseline comparison.
             </p>
           </div>
@@ -284,7 +284,7 @@ export const ReportPreviewPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 block uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 block uppercase tracking-wider">
                     Move-out Condition
                   </span>
                   <div className="aspect-[4/3] rounded-lg overflow-hidden bg-slate-950 border border-slate-200 dark:border-slate-700">
@@ -330,7 +330,7 @@ export const ReportPreviewPage: React.FC = () => {
               Landlord / Inspector Signature
             </span>
             <div className="h-16 border-b border-dashed border-slate-400 flex items-center justify-center font-serif text-xl italic text-slate-800 dark:text-slate-200">
-              {inspection.landlordSignature?.signedBy || 'John Lock'}
+              {inspection.landlordSignature?.signedBy || 'Unnati Gupta'}
             </div>
             <div className="flex justify-between text-[11px] text-slate-400">
               <span>Status: Cryptographically Verified</span>
