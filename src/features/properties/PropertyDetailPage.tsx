@@ -172,7 +172,47 @@ export const PropertyDetailPage: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-500 py-3">No tenant assigned to this unit.</p>
+              <div className="space-y-3 text-xs py-1">
+                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/40 text-amber-900 dark:text-amber-200">
+                  <span className="font-bold block">Status: Vacant / Available for Rent</span>
+                  <span className="text-[11px] text-amber-700 dark:text-amber-300">
+                    Tenants can view this listing and submit lease requests from the Tenant Portal.
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <span className="text-slate-400 block font-medium">Monthly Rent</span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white font-mono">
+                      ${property.monthlyRent || 0}/mo
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block font-medium">Deposit Required</span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white font-mono">
+                      ${property.securityDeposit || 0}
+                    </span>
+                  </div>
+                </div>
+
+                {property.availableDate && (
+                  <div>
+                    <span className="text-slate-400 block font-medium">Available From</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">
+                      {property.availableDate}
+                    </span>
+                  </div>
+                )}
+
+                {property.description && (
+                  <div>
+                    <span className="text-slate-400 block font-medium">Description</span>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs mt-0.5 leading-relaxed">
+                      {property.description}
+                    </p>
+                  </div>
+                )}
+              </div>
             )}
           </div>
 

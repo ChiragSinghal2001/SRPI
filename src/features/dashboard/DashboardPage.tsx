@@ -19,6 +19,7 @@ import { inspectionService } from '../../services/inspectionService';
 import { disputeService } from '../../services/disputeService';
 import { maintenanceService } from '../../services/maintenanceService';
 import { auditService } from '../../services/auditService';
+import { rentalService } from '../../services/rentalService';
 import StatCard from '../../components/common/StatCard';
 import StatusChip from '../../components/common/StatusChip';
 import { CardSkeleton, TableSkeleton } from '../../components/common/LoadingSkeleton';
@@ -46,11 +47,16 @@ export const DashboardPage: React.FC = () => {
     () => auditService.getLogs(),
     []
   );
+  const { data: applications } = useFetch(
+    () => rentalService.getApplications(),
+    []
+  );
 
   const activeInspections =
     inspections?.filter((i) => i.status === 'in_progress' || i.status === 'ai_reviewed') || [];
   const openDisputes = disputes?.filter((d) => d.status === 'open') || [];
   const openMaintenance = maintenance?.filter((m) => m.status === 'open') || [];
+  const pendingApplications = applications?.filter((a) => a.status === 'pending') || [];
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
@@ -85,6 +91,37 @@ export const DashboardPage: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Incoming Rental Applications Banner */}
+      {pendingApplications.length > 0 && (
+        <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
+              <Plus size={20} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+                  {pendingApplications.length} New Rental Application{pendingApplications.length > 1 ? 's' : ''} Received
+                </h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-200 uppercase">
+                  Action Required
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Prospective renters have submitted applications for units in your portfolio.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('/tenants')}
+            className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-colors shrink-0"
+          >
+            Review &amp; Approve &rarr;
+          </button>
+        </div>
+      )}
 
       {/* KPI Stat Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

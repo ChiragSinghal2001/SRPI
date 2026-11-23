@@ -74,6 +74,10 @@ export const MOCK_PROPERTIES: Property[] = [
     imageUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80',
     rooms: ['Living Room', 'Master Bedroom', 'Kitchen', 'Bathroom'],
     status: 'under_inspection',
+    monthlyRent: 1850,
+    securityDeposit: 2200,
+    availableDate: '2026-12-01',
+    description: 'Bright 1-bedroom unit with modern quartz countertops, hardwood flooring, and private balcony.',
     currentTenant: {
       id: 'usr_tenant_1',
       name: 'Anushka Raj Jain',
@@ -98,6 +102,10 @@ export const MOCK_PROPERTIES: Property[] = [
     imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&auto=format&fit=crop&q=80',
     rooms: ['Living Room', 'Bedroom 1', 'Bedroom 2', 'Kitchen', 'Balcony'],
     status: 'occupied',
+    monthlyRent: 2900,
+    securityDeposit: 3400,
+    availableDate: '2027-06-01',
+    description: 'Resort-style 2-bedroom residence with Pacific ocean views, fitness club, and gated garage.',
     currentTenant: {
       id: 'usr_tenant_2',
       name: 'David Kim',
@@ -122,8 +130,34 @@ export const MOCK_PROPERTIES: Property[] = [
     imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&auto=format&fit=crop&q=80',
     rooms: ['Open Studio Living', 'Kitchen Area', 'Bathroom'],
     status: 'vacant',
+    monthlyRent: 1650,
+    securityDeposit: 1800,
+    availableDate: '2026-12-01',
+    description: 'Chic open-concept industrial loft studio with exposed ductwork, concrete flooring, and oversized windows.',
     createdAt: '2025-08-20T16:00:00Z',
     updatedAt: '2026-11-01T08:15:00Z',
+  },
+];
+
+export const MOCK_RENTAL_APPLICATIONS: import('../types/property').RentalApplication[] = [
+  {
+    id: 'app_1',
+    propertyId: 'prop_3',
+    propertyName: 'Highland Modern Lofts - Unit 302',
+    propertyUnit: '302',
+    propertyAddress: '450 North Highland Avenue',
+    propertyCity: 'Atlanta',
+    monthlyRent: 1650,
+    depositAmount: 1800,
+    tenantId: 'usr_tenant_1',
+    tenantName: 'Anushka Raj Jain',
+    tenantEmail: 'Anushka.miller@example.com',
+    tenantPhone: '+1 (555) 876-5432',
+    moveInDate: '2026-12-15',
+    leaseDurationMonths: 12,
+    message: 'Looking to move in mid-December. Clean rental history, no pets, excellent credit score.',
+    status: 'pending',
+    createdAt: '2026-11-21T14:00:00Z',
   },
 ];
 
