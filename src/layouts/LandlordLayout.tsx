@@ -42,7 +42,6 @@ export const LandlordLayout: React.FC = () => {
       label: 'New Inspection',
       to: '/inspections/new',
       icon: Camera,
-      highlight: true,
     },
     { label: 'AI Review', to: '/inspections/insp_101/review', icon: Eye, badge: 'AI' },
     { label: 'Reports', to: '/reports/insp_101', icon: FileCheck2 },
@@ -107,10 +106,7 @@ export const LandlordLayout: React.FC = () => {
                       'flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group',
                       isActive
                         ? 'bg-emerald-50 text-emerald-800 font-semibold dark:bg-emerald-950/50 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/50 shadow-2xs'
-                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100/80 dark:hover:bg-slate-800/60',
-                      item.highlight &&
-                      !isActive &&
-                      'bg-emerald-600/10 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-900/40 hover:bg-emerald-600/15'
+                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100/80 dark:hover:bg-slate-800/60'
                     )}
                   >
                     <div className="flex items-center gap-3">
