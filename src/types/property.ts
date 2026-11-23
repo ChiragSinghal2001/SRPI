@@ -20,7 +20,33 @@ export interface Property {
   imageUrl?: string;
   rooms: string[];
   currentTenant?: TenantInfo;
+  monthlyRent?: number;
+  securityDeposit?: number;
+  availableDate?: string;
+  description?: string;
   status: 'occupied' | 'vacant' | 'under_inspection';
   createdAt: string;
   updatedAt: string;
 }
+
+export interface RentalApplication {
+  id: string;
+  propertyId: string;
+  propertyName: string;
+  propertyUnit?: string;
+  propertyAddress: string;
+  propertyCity: string;
+  monthlyRent: number;
+  depositAmount: number;
+  tenantId: string;
+  tenantName: string;
+  tenantEmail: string;
+  tenantPhone: string;
+  moveInDate: string;
+  leaseDurationMonths: number;
+  message?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  createdAt: string;
+  reviewedAt?: string;
+}
+

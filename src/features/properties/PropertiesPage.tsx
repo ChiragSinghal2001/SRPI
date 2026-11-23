@@ -33,6 +33,10 @@ export const PropertiesPage: React.FC = () => {
   const [city, setCity] = useState('');
   const [stateCode, setStateCode] = useState('CA');
   const [zip, setZip] = useState('');
+  const [monthlyRent, setMonthlyRent] = useState('1850');
+  const [securityDeposit, setSecurityDeposit] = useState('2000');
+  const [availableDate, setAvailableDate] = useState('2026-12-01');
+  const [description, setDescription] = useState('Modern rental unit with spacious rooms, natural lighting, and renovated fixtures.');
   const [roomsInput, setRoomsInput] = useState('Living Room, Master Bedroom, Kitchen, Bathroom');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -69,6 +73,10 @@ export const PropertiesPage: React.FC = () => {
         zip,
         rooms: roomList.length > 0 ? roomList : ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom'],
         status: 'vacant',
+        monthlyRent: parseFloat(monthlyRent) || 1850,
+        securityDeposit: parseFloat(securityDeposit) || 2000,
+        availableDate: availableDate || new Date().toISOString().split('T')[0],
+        description: description || 'Modern rental unit with spacious rooms and updated fixtures.',
         imageUrl:
           'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80',
       });
@@ -182,6 +190,23 @@ export const PropertiesPage: React.FC = () => {
                       <MapPin size={13} className="shrink-0" />
                       {prop.address}, {prop.city}, {prop.state} {prop.zip}
                     </p>
+                  </div>
+
+                  {/* Financials & Price Bar */}
+                  <div className="pt-2.5 pb-1 flex items-center justify-between text-xs border-t border-slate-100 dark:border-slate-800">
+                    <div>
+                      <span className="text-[10px] text-slate-400 block uppercase font-medium">Monthly Rent</span>
+                      <span className="font-extrabold text-emerald-600 dark:text-emerald-400 text-sm font-mono">
+                        ${prop.monthlyRent || prop.currentTenant?.monthlyRent || 0}
+                        <span className="text-[10px] font-normal text-slate-400">/mo</span>
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] text-slate-400 block uppercase font-medium">Deposit</span>
+                      <span className="font-semibold text-slate-700 dark:text-slate-300 font-mono text-xs">
+                        ${prop.securityDeposit || prop.currentTenant?.depositAmount || 0}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Rooms List Pill preview */}
@@ -313,6 +338,61 @@ export const PropertiesPage: React.FC = () => {
                     className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    Monthly Rent ($)
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    value={monthlyRent}
+                    onChange={(e) => setMonthlyRent(e.target.value)}
+                    placeholder="1850"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500 font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    Security Deposit ($)
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    value={securityDeposit}
+                    onChange={(e) => setSecurityDeposit(e.target.value)}
+                    placeholder="2000"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500 font-mono"
+                  />
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    Available From
+                  </label>
+                  <input
+                    type="date"
+                    value={availableDate}
+                    onChange={(e) => setAvailableDate(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Listing Description & Highlights
+                </label>
+                <textarea
+                  rows={2}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="e.g. Spacious unit with updated flooring, natural sunlight, and private balcony."
+                  className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:outline-hidden focus:border-emerald-500"
+                />
               </div>
 
               <div>
