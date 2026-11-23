@@ -2,15 +2,30 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Wrench, CheckCircle2, Clock, AlertTriangle, ChevronLeft } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
+import { useAppSelector } from '../../hooks/useRedux';
 import { maintenanceService } from '../../services/maintenanceService';
+import { propertyService } from '../../services/propertyService';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
 
 export const TenantMaintenancePage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const { data: properties } = useFetch(() => propertyService.getProperties(), []);
+  const activeLeasedProperty = properties?.find(
+    (p) =>
+      p.currentTenant &&
+      (p.currentTenant.id === user?.id ||
+        (user?.email && p.currentTenant.email.toLowerCase() === user.email.toLowerCase()) ||
+        (user?.id === 'usr_tenant_1' && p.currentTenant.id === 'usr_tenant_1'))
+  );
 
   const { data: tickets, loading } = useFetch(
-    () => maintenanceService.getTickets(),
-    []
+    () =>
+      maintenanceService.getTickets(
+        activeLeasedProperty ? { propertyId: activeLeasedProperty.id } : undefined
+      ),
+    [activeLeasedProperty?.id]
   );
 
   return (

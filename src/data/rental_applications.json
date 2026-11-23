@@ -1,0 +1,22 @@
+[
+  {
+    "id": "app_1",
+    "propertyId": "prop_3",
+    "propertyName": "Highland Modern Lofts - Unit 302",
+    "propertyUnit": "302",
+    "propertyAddress": "450 North Highland Avenue",
+    "propertyCity": "Atlanta",
+    "monthlyRent": 1650,
+    "depositAmount": 1800,
+    "tenantId": "usr_tenant_1",
+    "tenantName": "Anushka Raj Jain",
+    "tenantEmail": "Anushka.miller@example.com",
+    "tenantPhone": "+1 (555) 876-5432",
+    "moveInDate": "2026-12-15",
+    "leaseDurationMonths": 12,
+    "message": "Hi, I am looking to lease Unit 302 starting mid-December. I have a solid rental record and verified income.",
+    "status": "pending",
+    "createdAt": "2026-11-20T14:20:00Z"
+  }
+]
+

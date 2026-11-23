@@ -20,15 +20,16 @@ import { useFetch } from '../../hooks/useFetch';
 import { propertyService } from '../../services/propertyService';
 import { rentalService } from '../../services/rentalService';
 import { RentalApplication } from '../../types/property';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { addToast } from '../../store/slices/uiSlice';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
 
 export const TenantsPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const [showAssignModal, setShowAssignModal] = useState(false);
 
-  const [selectedPropertyId, setSelectedPropertyId] = useState('prop_3');
+  const [selectedPropertyId, setSelectedPropertyId] = useState('');
   const [tenantName, setTenantName] = useState('');
   const [tenantEmail, setTenantEmail] = useState('');
   const [tenantPhone, setTenantPhone] = useState('');
@@ -40,13 +41,13 @@ export const TenantsPage: React.FC = () => {
   const [processingAppId, setProcessingAppId] = useState<string | null>(null);
 
   const { data: properties, loading, refetch } = useFetch(
-    () => propertyService.getProperties(),
-    []
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
   );
 
   const { data: applications, refetch: refetchApps } = useFetch(
-    () => rentalService.getApplications(),
-    []
+    () => rentalService.getApplications({ landlordId: user?.id }),
+    [user?.id]
   );
 
   const handleApproveApplication = async (app: RentalApplication) => {

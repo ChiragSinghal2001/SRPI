@@ -8,4 +8,5 @@ export interface AuditEntry {
   details: string;
   resourceType: 'inspection' | 'dispute' | 'maintenance' | 'property' | 'auth';
   resourceId: string;
+  propertyId?: string;
 }

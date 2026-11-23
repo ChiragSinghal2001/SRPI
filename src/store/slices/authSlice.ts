@@ -1,26 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User, UserRole, AuthState } from '../../types/auth';
+import { SEEDED_USERS } from '../../services/authService';
 
-// Default initial demo user (Landlord)
-const defaultDemoUser: User = {
-  id: 'usr_landlord_1',
-  name: 'Unnati Gupta',
-  email: 'Unnati.lock@realtycorp.com',
-  role: 'LANDLORD',
-  company: 'Pacific Heights Property Management',
-  phone: '+1 (555) 234-5678',
-  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-};
-
-const defaultDemoTenant: User = {
-  id: 'usr_tenant_1',
-  name: 'Anushka Raj Jain',
-  email: 'Anushka.miller@example.com',
-  role: 'TENANT',
-  phone: '+1 (555) 876-5432',
-  assignedPropertyId: 'prop_1',
-  avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-};
+const defaultDemoUser = SEEDED_USERS[0]; // Unnati Gupta (Landlord)
+const defaultDemoTenant = SEEDED_USERS[1]; // Anushka Raj Jain (Tenant)
 
 const initialState: AuthState = {
   user: defaultDemoUser,
@@ -41,6 +24,24 @@ export const authSlice = createSlice({
     ) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      state.role = action.payload.user.role;
+      state.isAuthenticated = true;
+      state.error = null;
+    },
+    updateActiveUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.user) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+        };
+      }
+    },
+    switchUser: (
+      state,
+      action: PayloadAction<{ user: User; token?: string }>
+    ) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token || `jwt_token_${action.payload.user.id}`;
       state.role = action.payload.user.role;
       state.isAuthenticated = true;
       state.error = null;
@@ -74,7 +75,14 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, switchDemoRole, logout, setAuthLoading, setAuthError } =
-  authSlice.actions;
+export const {
+  setCredentials,
+  updateActiveUser,
+  switchUser,
+  switchDemoRole,
+  logout,
+  setAuthLoading,
+  setAuthError,
+} = authSlice.actions;
 
 export default authSlice.reducer;

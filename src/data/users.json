@@ -1,0 +1,46 @@
+[
+  {
+    "id": "usr_1795413931238",
+    "name": "Chirag Singhal",
+    "email": "c@gmail.com",
+    "password": "123456",
+    "role": "LANDLORD",
+    "phone": "1231231231",
+    "company": "P2P Softtek",
+    "avatarUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Chirag%20Single&backgroundColor=059669,0d9488,0284c7",
+    "createdAt": "2026-11-23T06:05:31.238Z"
+  },
+  {
+    "id": "usr_landlord_1",
+    "name": "Unnati Gupta",
+    "email": "Unnati.lock@realtycorp.com",
+    "password": "password123",
+    "role": "LANDLORD",
+    "company": "Pacific Heights Property Management",
+    "phone": "+1 (555) 234-5678",
+    "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "usr_tenant_1",
+    "name": "Anushka Raj Jain",
+    "email": "Anushka.miller@example.com",
+    "password": "password123",
+    "role": "TENANT",
+    "phone": "+1 (555) 876-5432",
+    "assignedPropertyId": "prop_1",
+    "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "usr_tenant_2",
+    "name": "David Kim",
+    "email": "david.kim@example.com",
+    "password": "password123",
+    "role": "TENANT",
+    "phone": "+1 (555) 345-9876",
+    "assignedPropertyId": "prop_2",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+]

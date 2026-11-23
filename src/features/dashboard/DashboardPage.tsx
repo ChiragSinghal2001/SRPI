@@ -23,33 +23,59 @@ import { rentalService } from '../../services/rentalService';
 import StatCard from '../../components/common/StatCard';
 import StatusChip from '../../components/common/StatusChip';
 import { CardSkeleton, TableSkeleton } from '../../components/common/LoadingSkeleton';
+import { useAppSelector } from '../../hooks/useRedux';
 
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
 
   const { data: properties, loading: propLoading } = useFetch(
-    () => propertyService.getProperties(),
-    []
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
   );
+
+  const propertyIds = properties?.map((p) => p.id) || [];
+
   const { data: inspections, loading: inspLoading } = useFetch(
-    () => inspectionService.getInspections(),
-    []
+    () =>
+      propertyIds.length > 0
+        ? inspectionService.getInspections({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
   );
   const { data: disputes, loading: dispLoading } = useFetch(
-    () => disputeService.getDisputes(),
-    []
+    () =>
+      propertyIds.length > 0
+        ? disputeService.getDisputes({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
   );
   const { data: maintenance, loading: maintLoading } = useFetch(
-    () => maintenanceService.getTickets(),
-    []
+    () =>
+      propertyIds.length > 0
+        ? maintenanceService.getTickets({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
   );
   const { data: auditLogs, loading: auditLoading } = useFetch(
-    () => auditService.getLogs(),
-    []
+    () =>
+      propertyIds.length > 0
+        ? auditService
+            .getLogs()
+            .then((logs) =>
+              logs.filter(
+                (l) =>
+                  l.actorId === user?.id ||
+                  (l.propertyId && propertyIds.includes(l.propertyId)) ||
+                  propertyIds.includes(l.resourceId)
+              )
+            )
+        : Promise.resolve([]),
+    [propertyIds.join(','), user?.id]
   );
   const { data: applications } = useFetch(
-    () => rentalService.getApplications(),
-    []
+    () => rentalService.getApplications({ landlordId: user?.id }),
+    [user?.id]
   );
 
   const activeInspections =
@@ -67,7 +93,7 @@ export const DashboardPage: React.FC = () => {
             Portfolio Command Center
           </span>
           <h1 className="text-2xl sm:text-3xl font-black mt-1">
-            Welcome back, Unnati
+            Welcome back, {user?.name || 'Landlord'}
           </h1>
           <p className="text-xs sm:text-sm text-emerald-100 mt-1 max-w-xl">
             Here is your rental portfolio health, AI damage triage, and tamper-evident audit stream for today.
@@ -132,29 +158,61 @@ export const DashboardPage: React.FC = () => {
             <StatCard
               title="Properties Managed"
               value={properties?.length || 0}
-              subtitle="92% Portfolio Occupancy"
+              subtitle={
+                properties && properties.length > 0
+                  ? `${Math.round(
+                      (properties.filter((p) => p.status === 'occupied').length /
+                        properties.length) *
+                        100
+                    )}% Portfolio Occupancy`
+                  : 'No properties registered'
+              }
               icon={Building2}
               onClick={() => navigate('/properties')}
             />
             <StatCard
               title="Active Inspections"
               value={activeInspections.length}
-              subtitle="1 Ready for AI Review"
+              subtitle={
+                activeInspections.length > 0
+                  ? `${
+                      activeInspections.filter((i) => i.status === 'ai_reviewed').length
+                    } Ready for AI Review`
+                  : 'Zero active inspections'
+              }
               icon={Camera}
-              trend={{ value: '2 this week', isPositive: true }}
-              onClick={() => navigate('/inspections/insp_101/review')}
+              trend={
+                activeInspections.length > 0
+                  ? { value: `${activeInspections.length} total`, isPositive: true }
+                  : undefined
+              }
+              onClick={() =>
+                activeInspections.length > 0
+                  ? navigate(`/inspections/${activeInspections[0].id}/review`)
+                  : navigate('/inspections/new')
+              }
             />
             <StatCard
               title="Open Disputes"
               value={openDisputes.length}
-              subtitle="Requires Landlord Response"
+              subtitle={
+                openDisputes.length > 0
+                  ? `${openDisputes.length} Requires Landlord Response`
+                  : 'Zero open disputes'
+              }
               icon={AlertOctagon}
               onClick={() => navigate('/disputes')}
             />
             <StatCard
               title="Open Maintenance"
               value={openMaintenance.length}
-              subtitle="$400 Est. Damage Claims"
+              subtitle={
+                openMaintenance.length > 0
+                  ? `${openMaintenance.length} Active Work Order${
+                      openMaintenance.length > 1 ? 's' : ''
+                    }`
+                  : 'All systems normal'
+              }
               icon={Wrench}
               onClick={() => navigate('/maintenance')}
             />
@@ -180,58 +238,77 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <div className="space-y-3">
-            {inspections?.map((insp) => (
-              <div
-                key={insp.id}
-                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
-                      {insp.propertyName}
-                    </span>
-                    <span className="text-xs px-2 py-0.5 rounded-full font-bold uppercase bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                      {insp.type === 'move_out' ? 'Move-Out AI Comp' : 'Move-In Baseline'}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500">
-                    Tenant: <strong>{insp.tenantName}</strong> • Date: {insp.scheduledDate}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs pt-1">
-                    {insp.status === 'ai_reviewed' && (
-                      <span className="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
-                        <Sparkles size={13} /> AI Damage Analysis Ready (4 Findings)
-                      </span>
-                    )}
-                    {insp.status === 'finalized' && (
-                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                        <CheckCircle2 size={13} /> Finalized & Signed
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  {insp.status === 'ai_reviewed' ? (
-                    <button
-                      type="button"
-                      onClick={() => navigate(`/inspections/${insp.id}/review`)}
-                      className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
-                    >
-                      Review Findings <ChevronRight size={14} />
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => navigate(`/reports/${insp.id}`)}
-                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
-                    >
-                      View Report <ChevronRight size={14} />
-                    </button>
-                  )}
-                </div>
+            {!inspections || inspections.length === 0 ? (
+              <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 text-slate-500">
+                <Camera size={32} className="mx-auto text-slate-400 mb-2 opacity-50" />
+                <p className="font-bold text-sm text-slate-800 dark:text-slate-200">
+                  No Active Inspections Found
+                </p>
+                <p className="text-xs text-slate-400 mt-0.5 max-w-sm mx-auto">
+                  There are no move-in or move-out inspections scheduled for your properties.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => navigate('/inspections/new')}
+                  className="mt-4 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+                >
+                  + Start New Inspection
+                </button>
               </div>
-            ))}
+            ) : (
+              inspections.map((insp) => (
+                <div
+                  key={insp.id}
+                  className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                        {insp.propertyName}
+                      </span>
+                      <span className="text-xs px-2 py-0.5 rounded-full font-bold uppercase bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                        {insp.type === 'move_out' ? 'Move-Out AI Comp' : 'Move-In Baseline'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-500">
+                      Tenant: <strong>{insp.tenantName}</strong> • Date: {insp.scheduledDate}
+                    </p>
+                    <div className="flex items-center gap-2 text-xs pt-1">
+                      {insp.status === 'ai_reviewed' && (
+                        <span className="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
+                          <Sparkles size={13} /> AI Damage Analysis Ready (4 Findings)
+                        </span>
+                      )}
+                      {insp.status === 'finalized' && (
+                        <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                          <CheckCircle2 size={13} /> Finalized & Signed
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    {insp.status === 'ai_reviewed' ? (
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/inspections/${insp.id}/review`)}
+                        className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+                      >
+                        Review Findings <ChevronRight size={14} />
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/reports/${insp.id}`)}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
+                      >
+                        View Report <ChevronRight size={14} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -244,13 +321,26 @@ export const DashboardPage: React.FC = () => {
                 <AlertOctagon size={16} className="text-amber-600" />
                 Open Tenant Disputes
               </h2>
-              <Link to="/disputes" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">
-                View All ({openDisputes.length})
-              </Link>
+              {openDisputes.length > 0 && (
+                <Link
+                  to="/disputes"
+                  className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
+                >
+                  View All ({openDisputes.length})
+                </Link>
+              )}
             </div>
 
             {openDisputes.length === 0 ? (
-              <p className="text-xs text-slate-500 py-4 text-center">No open disputes</p>
+              <div className="p-6 text-center text-slate-500">
+                <CheckCircle2 size={26} className="mx-auto text-emerald-500 mb-1 opacity-80" />
+                <p className="font-semibold text-xs text-slate-800 dark:text-slate-200">
+                  No Open Disputes
+                </p>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  Your tenant portfolio has no pending deduction challenges.
+                </p>
+              </div>
             ) : (
               openDisputes.map((d) => (
                 <div
@@ -290,34 +380,48 @@ export const DashboardPage: React.FC = () => {
                 <Clock size={16} className="text-slate-500" />
                 Recent Audit Trail
               </h2>
-              <Link
-                to="/audit-logs"
-                className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
-              >
-                Full Ledger
-              </Link>
+              {auditLogs && auditLogs.length > 0 && (
+                <Link
+                  to="/audit-logs"
+                  className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
+                >
+                  Full Ledger
+                </Link>
+              )}
             </div>
 
-            <div className="space-y-3">
-              {auditLogs?.slice(0, 3).map((log) => (
-                <div key={log.id} className="text-xs space-y-0.5 border-l-2 border-emerald-500 pl-3">
-                  <div className="flex justify-between items-center text-[11px]">
-                    <span className="font-semibold text-slate-800 dark:text-slate-200">
-                      {log.action}
-                    </span>
-                    <span className="text-slate-400 font-mono">
-                      {new Date(log.timestamp).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </span>
+            {!auditLogs || auditLogs.length === 0 ? (
+              <div className="p-6 text-center text-slate-500">
+                <Clock size={24} className="mx-auto text-slate-400 mb-1 opacity-60" />
+                <p className="font-semibold text-xs text-slate-800 dark:text-slate-200">
+                  Audit Trail Ready
+                </p>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  Activities for your properties will be cryptographically sealed here.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {auditLogs.slice(0, 3).map((log) => (
+                  <div key={log.id} className="text-xs space-y-0.5 border-l-2 border-emerald-500 pl-3">
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">
+                        {log.action}
+                      </span>
+                      <span className="text-slate-400 font-mono">
+                        {new Date(log.timestamp).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </span>
+                    </div>
+                    <p className="text-slate-500 dark:text-slate-400 text-[11px] truncate">
+                      {log.details}
+                    </p>
                   </div>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11px] truncate">
-                    {log.details}
-                  </p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

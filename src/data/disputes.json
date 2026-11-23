@@ -1,0 +1,19 @@
+[
+  {
+    "id": "disp_1",
+    "inspectionId": "insp_101",
+    "propertyId": "prop_1",
+    "propertyName": "Pinecrest Apartments - Unit 4B",
+    "unit": "4B",
+    "tenantId": "usr_tenant_1",
+    "tenantName": "Anushka Raj Jain",
+    "room": "Living Room",
+    "object": "door",
+    "assessedAmount": 140,
+    "tenantComment": "The door scratch was already present when I moved in during January 2025. I reported it to the super via email, please verify move-in records.",
+    "counterPhotoUrl": "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?w=600&auto=format&fit=crop&q=80",
+    "status": "open",
+    "createdAt": "2026-11-19T06:30:00Z"
+  }
+]
+

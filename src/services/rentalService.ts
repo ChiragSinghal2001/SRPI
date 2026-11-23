@@ -1,42 +1,78 @@
 import { RentalApplication, Property } from '../types/property';
-import { MOCK_RENTAL_APPLICATIONS } from './mockData';
 import { propertyService } from './propertyService';
+import { authService } from './authService';
+import { syncLoadJsonData, loadJsonData, saveJsonData } from './jsonStorage';
 
-let applications: RentalApplication[] = [...MOCK_RENTAL_APPLICATIONS];
+let applications: RentalApplication[] = syncLoadJsonData<RentalApplication[]>('rental_applications');
+
+loadJsonData<RentalApplication[]>('rental_applications').then((apps) => {
+  if (apps && apps.length > 0) {
+    applications = apps;
+  }
+});
 
 export const rentalService = {
-  async getApplications(): Promise<RentalApplication[]> {
-    await new Promise((res) => setTimeout(res, 200));
+  async getApplications(filter?: { landlordId?: string }): Promise<RentalApplication[]> {
+    await new Promise((res) => setTimeout(res, 150));
+    const all = await loadJsonData<RentalApplication[]>('rental_applications');
+    if (all && all.length > 0) {
+      applications = all;
+    }
+
+    if (filter?.landlordId) {
+      const landlordProperties = await propertyService.getProperties({ landlordId: filter.landlordId });
+      const propertyIds = new Set(landlordProperties.map((p) => p.id));
+      return applications.filter((a) => propertyIds.has(a.propertyId));
+    }
+
     return [...applications];
   },
 
   async getApplicationsForTenant(tenantIdOrEmail: string): Promise<RentalApplication[]> {
-    await new Promise((res) => setTimeout(res, 200));
+    await new Promise((res) => setTimeout(res, 150));
+    const all = await loadJsonData<RentalApplication[]>('rental_applications');
+    if (all && all.length > 0) {
+      applications = all;
+    }
+    const query = tenantIdOrEmail.toLowerCase().trim();
     return applications.filter(
       (a) =>
         a.tenantId === tenantIdOrEmail ||
-        a.tenantEmail.toLowerCase() === tenantIdOrEmail.toLowerCase()
+        a.tenantEmail.toLowerCase().trim() === query
     );
   },
 
   async createApplication(
     data: Omit<RentalApplication, 'id' | 'createdAt' | 'status' | 'reviewedAt'>
   ): Promise<RentalApplication> {
-    await new Promise((res) => setTimeout(res, 350));
+    await new Promise((res) => setTimeout(res, 250));
+    const all = await loadJsonData<RentalApplication[]>('rental_applications');
+    if (all && all.length > 0) {
+      applications = all;
+    }
+
     const newApp: RentalApplication = {
       ...data,
       id: `app_${Date.now()}`,
       status: 'pending',
       createdAt: new Date().toISOString(),
     };
+
     applications = [newApp, ...applications];
+    // Persist directly to src/data/rental_applications.json on disk!
+    await saveJsonData('rental_applications', applications);
     return newApp;
   },
 
   async approveApplication(
     applicationId: string
   ): Promise<{ application: RentalApplication; property: Property }> {
-    await new Promise((res) => setTimeout(res, 350));
+    await new Promise((res) => setTimeout(res, 300));
+    const all = await loadJsonData<RentalApplication[]>('rental_applications');
+    if (all && all.length > 0) {
+      applications = all;
+    }
+
     const appIndex = applications.findIndex((a) => a.id === applicationId);
     if (appIndex === -1) throw new Error('Application not found');
 
@@ -47,6 +83,8 @@ export const rentalService = {
       reviewedAt: new Date().toISOString(),
     };
     applications[appIndex] = reviewedApp;
+    // Persist directly to src/data/rental_applications.json on disk!
+    await saveJsonData('rental_applications', applications);
 
     // Calculate lease end date: default 12 months from moveInDate
     const moveIn = new Date(app.moveInDate || new Date());
@@ -71,11 +109,25 @@ export const rentalService = {
       },
     });
 
+    // Update tenant profile in authService with assignedPropertyId
+    try {
+      await authService.updateUser(app.tenantId, {
+        assignedPropertyId: app.propertyId,
+      });
+    } catch {
+      // User might be a guest or demo user not in registry
+    }
+
     return { application: reviewedApp, property: updatedProperty };
   },
 
   async rejectApplication(applicationId: string): Promise<RentalApplication> {
-    await new Promise((res) => setTimeout(res, 250));
+    await new Promise((res) => setTimeout(res, 200));
+    const all = await loadJsonData<RentalApplication[]>('rental_applications');
+    if (all && all.length > 0) {
+      applications = all;
+    }
+
     const appIndex = applications.findIndex((a) => a.id === applicationId);
     if (appIndex === -1) throw new Error('Application not found');
 
@@ -86,12 +138,16 @@ export const rentalService = {
       reviewedAt: new Date().toISOString(),
     };
     applications[appIndex] = rejectedApp;
+    // Persist directly to src/data/rental_applications.json on disk!
+    await saveJsonData('rental_applications', applications);
     return rejectedApp;
   },
 
   async cancelApplication(applicationId: string): Promise<void> {
-    await new Promise((res) => setTimeout(res, 200));
-    applications = applications.filter((a) => a.id !== applicationId);
+    const all = await loadJsonData<RentalApplication[]>('rental_applications');
+    applications = (all || []).filter((a) => a.id !== applicationId);
+    // Persist directly to src/data/rental_applications.json on disk!
+    await saveJsonData('rental_applications', applications);
   },
 };
 

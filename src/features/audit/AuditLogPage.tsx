@@ -4,12 +4,36 @@ import { useFetch } from '../../hooks/useFetch';
 import { auditService } from '../../services/auditService';
 import { AuditEntry } from '../../types/audit';
 import { TableSkeleton } from '../../components/common/LoadingSkeleton';
+import { useAppSelector } from '../../hooks/useRedux';
+import { propertyService } from '../../services/propertyService';
 
 export const AuditLogPage: React.FC = () => {
   const [filterRole, setFilterRole] = useState<string>('ALL');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const { user } = useAppSelector((state) => state.auth);
 
-  const { data: logs, loading } = useFetch(() => auditService.getLogs(), []);
+  const { data: properties } = useFetch(
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
+  );
+  const propertyIds = properties?.map((p) => p.id) || [];
+
+  const { data: logs, loading } = useFetch(
+    () =>
+      propertyIds.length > 0
+        ? auditService
+            .getLogs()
+            .then((allLogs) =>
+              allLogs.filter(
+                (l) =>
+                  l.actorId === user?.id ||
+                  (l.propertyId && propertyIds.includes(l.propertyId)) ||
+                  propertyIds.includes(l.resourceId)
+              )
+            )
+        : Promise.resolve([]),
+    [propertyIds.join(','), user?.id]
+  );
 
   const filteredLogs = (logs || []).filter((log) => {
     const matchesRole = filterRole === 'ALL' || log.actorRole === filterRole;

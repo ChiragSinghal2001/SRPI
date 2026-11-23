@@ -15,13 +15,14 @@ import {
 import { useFetch } from '../../hooks/useFetch';
 import { propertyService } from '../../services/propertyService';
 import { Property } from '../../types/property';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { addToast } from '../../store/slices/uiSlice';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
 
 export const PropertiesPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -44,7 +45,7 @@ export const PropertiesPage: React.FC = () => {
     data: properties,
     loading,
     refetch,
-  } = useFetch(() => propertyService.getProperties(), []);
+  } = useFetch(() => propertyService.getProperties({ landlordId: user?.id }), [user?.id]);
 
   const filteredProperties =
     properties?.filter(
@@ -64,22 +65,25 @@ export const PropertiesPage: React.FC = () => {
         .map((r) => r.trim())
         .filter(Boolean);
 
-      await propertyService.createProperty({
-        name: propertyName,
-        address,
-        unit,
-        city,
-        state: stateCode,
-        zip,
-        rooms: roomList.length > 0 ? roomList : ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom'],
-        status: 'vacant',
-        monthlyRent: parseFloat(monthlyRent) || 1850,
-        securityDeposit: parseFloat(securityDeposit) || 2000,
-        availableDate: availableDate || new Date().toISOString().split('T')[0],
-        description: description || 'Modern rental unit with spacious rooms and updated fixtures.',
-        imageUrl:
-          'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80',
-      });
+      await propertyService.createProperty(
+        {
+          name: propertyName,
+          address,
+          unit,
+          city,
+          state: stateCode,
+          zip,
+          rooms: roomList.length > 0 ? roomList : ['Living Room', 'Bedroom', 'Kitchen', 'Bathroom'],
+          status: 'vacant',
+          monthlyRent: parseFloat(monthlyRent) || 1850,
+          securityDeposit: parseFloat(securityDeposit) || 2000,
+          availableDate: availableDate || new Date().toISOString().split('T')[0],
+          description: description || 'Modern rental unit with spacious rooms and updated fixtures.',
+          imageUrl:
+            'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80',
+        },
+        user?.id
+      );
 
       await refetch();
       setShowAddModal(false);

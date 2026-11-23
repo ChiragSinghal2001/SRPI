@@ -37,9 +37,9 @@ export const TenantHomePage: React.FC = () => {
 
   // Rental application modal state
   const [selectedPropertyForRent, setSelectedPropertyForRent] = useState<Property | null>(null);
-  const [applicantName, setApplicantName] = useState(user?.name || 'Anushka Raj Jain');
-  const [applicantEmail, setApplicantEmail] = useState(user?.email || 'Anushka.miller@example.com');
-  const [applicantPhone, setApplicantPhone] = useState('+1 (555) 876-5432');
+  const [applicantName, setApplicantName] = useState(user?.name || '');
+  const [applicantEmail, setApplicantEmail] = useState(user?.email || '');
+  const [applicantPhone, setApplicantPhone] = useState(user?.phone || '+1 (555) 876-5432');
   const [moveInDate, setMoveInDate] = useState('2026-12-15');
   const [leaseDuration, setLeaseDuration] = useState('12');
   const [applicationMessage, setApplicationMessage] = useState(
@@ -67,14 +67,13 @@ export const TenantHomePage: React.FC = () => {
     [user]
   );
 
-  // Active leased property: match current tenant by ID, email, or name
+  // Active leased property: match current tenant by ID, email, or demo tenant
   const activeLeasedProperty = properties?.find(
     (p) =>
       p.currentTenant &&
       (p.currentTenant.id === user?.id ||
-        p.currentTenant.email.toLowerCase() === (user?.email || '').toLowerCase() ||
-        p.currentTenant.name.toLowerCase() === (user?.name || '').toLowerCase() ||
-        (user?.role === 'TENANT' && p.currentTenant.id === 'usr_tenant_1'))
+        (user?.email && p.currentTenant.email.toLowerCase() === user.email.toLowerCase()) ||
+        (user?.id === 'usr_tenant_1' && p.currentTenant.id === 'usr_tenant_1'))
   );
   const currentTenantInfo = activeLeasedProperty?.currentTenant;
 
@@ -84,9 +83,10 @@ export const TenantHomePage: React.FC = () => {
 
   const handleOpenRentModal = (property: Property) => {
     setSelectedPropertyForRent(property);
-    setApplicantName(user?.name || 'Anushka Raj Jain');
-    setApplicantEmail(user?.email || 'Anushka.miller@example.com');
-    setMoveInDate(property.availableDate || '2026-12-15');
+    setApplicantName(user?.name || '');
+    setApplicantEmail(user?.email || '');
+    setApplicantPhone(user?.phone || '+1 (555) 876-5432');
+    setMoveInDate(property.availableDate || new Date().toISOString().split('T')[0]);
   };
 
   const handleSubmitRentalRequest = async (e: React.FormEvent) => {
@@ -104,8 +104,8 @@ export const TenantHomePage: React.FC = () => {
         monthlyRent: selectedPropertyForRent.monthlyRent || 1600,
         depositAmount: selectedPropertyForRent.securityDeposit || 1800,
         tenantId: user?.id || 'usr_tenant_1',
-        tenantName: applicantName,
-        tenantEmail: applicantEmail,
+        tenantName: applicantName || user?.name || 'Resident',
+        tenantEmail: applicantEmail || user?.email || 'tenant@example.com',
         tenantPhone: applicantPhone,
         moveInDate,
         leaseDurationMonths: parseInt(leaseDuration, 10) || 12,
@@ -113,6 +113,7 @@ export const TenantHomePage: React.FC = () => {
       });
 
       await refetchApps();
+      await refetchProperties();
       setSelectedPropertyForRent(null);
       dispatch(
         addToast({

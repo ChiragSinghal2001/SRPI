@@ -11,6 +11,7 @@ export interface TenantInfo {
 
 export interface Property {
   id: string;
+  landlordId?: string;
   name: string;
   address: string;
   city: string;

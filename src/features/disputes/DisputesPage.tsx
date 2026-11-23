@@ -13,19 +13,30 @@ import {
 import { useFetch } from '../../hooks/useFetch';
 import { disputeService } from '../../services/disputeService';
 import { DisputeItem } from '../../types/dispute';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { propertyService } from '../../services/propertyService';
 import { addToast } from '../../store/slices/uiSlice';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
 
 export const DisputesPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [selectedDisputeId, setSelectedDisputeId] = useState<string>('disp_1');
+  const { user } = useAppSelector((state) => state.auth);
+  const [selectedDisputeId, setSelectedDisputeId] = useState<string>('');
   const [resolutionReason, setResolutionReason] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { data: properties } = useFetch(
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
+  );
+  const propertyIds = properties?.map((p) => p.id) || [];
+
   const { data: disputes, loading, refetch } = useFetch(
-    () => disputeService.getDisputes(),
-    []
+    () =>
+      propertyIds.length > 0
+        ? disputeService.getDisputes({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
   );
 
   const activeDispute = disputes?.find((d) => d.id === selectedDisputeId) || disputes?.[0];
@@ -78,6 +89,16 @@ export const DisputesPage: React.FC = () => {
 
       {loading ? (
         <CardSkeleton />
+      ) : !disputes || disputes.length === 0 ? (
+        <div className="p-12 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs">
+          <AlertOctagon size={36} className="mx-auto text-slate-400 mb-2 opacity-50" />
+          <h3 className="font-bold text-base text-slate-800 dark:text-slate-200">
+            No Tenant Disputes on File
+          </h3>
+          <p className="text-xs text-slate-500 max-w-md mx-auto mt-1">
+            There are currently no deduction challenges or damage disputes filed for your properties.
+          </p>
+        </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column: Disputes List (5 cols) */}

@@ -21,6 +21,10 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { useFetch } from '../hooks/useFetch';
+import { propertyService } from '../services/propertyService';
+import { inspectionService } from '../services/inspectionService';
+import { disputeService } from '../services/disputeService';
 import { toggleTheme } from '../store/slices/uiSlice';
 import { switchDemoRole, logout } from '../store/slices/authSlice';
 import { cn } from '../utils/cn';
@@ -34,6 +38,34 @@ export const LandlordLayout: React.FC = () => {
   const { user, role } = useAppSelector((state) => state.auth);
   const theme = useAppSelector((state) => state.ui.theme);
 
+  const { data: properties } = useFetch(
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
+  );
+  const propertyIds = properties?.map((p) => p.id) || [];
+
+  const { data: inspections } = useFetch(
+    () =>
+      propertyIds.length > 0
+        ? inspectionService.getInspections({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
+  );
+
+  const { data: disputes } = useFetch(
+    () =>
+      propertyIds.length > 0
+        ? disputeService.getDisputes({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
+  );
+
+  const activeTriageInspection = inspections?.find(
+    (i) => i.status === 'ai_reviewed' || i.status === 'in_progress'
+  );
+  const latestFinalizedInspection = inspections?.find((i) => i.status === 'finalized');
+  const openDisputesCount = disputes?.filter((d) => d.status === 'open').length || 0;
+
   const navItems = [
     { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
     { label: 'Properties', to: '/properties', icon: Home },
@@ -43,9 +75,27 @@ export const LandlordLayout: React.FC = () => {
       to: '/inspections/new',
       icon: Camera,
     },
-    { label: 'AI Review', to: '/inspections/insp_101/review', icon: Eye, badge: 'AI' },
-    { label: 'Reports', to: '/reports/insp_101', icon: FileCheck2 },
-    { label: 'Disputes', to: '/disputes', icon: AlertOctagon, badge: '1' },
+    {
+      label: 'AI Review',
+      to: activeTriageInspection
+        ? `/inspections/${activeTriageInspection.id}/review`
+        : '/inspections/new',
+      icon: Eye,
+      badge: activeTriageInspection ? 'AI' : undefined,
+    },
+    {
+      label: 'Reports',
+      to: latestFinalizedInspection
+        ? `/reports/${latestFinalizedInspection.id}`
+        : '/dashboard',
+      icon: FileCheck2,
+    },
+    {
+      label: 'Disputes',
+      to: '/disputes',
+      icon: AlertOctagon,
+      badge: openDisputesCount > 0 ? String(openDisputesCount) : undefined,
+    },
     { label: 'Maintenance', to: '/maintenance', icon: Wrench },
     { label: 'Audit Log', to: '/audit-logs', icon: History },
   ];
@@ -133,27 +183,29 @@ export const LandlordLayout: React.FC = () => {
             </nav>
           </div>
 
-          {/* Active Unit In Triage Quick Card */}
-          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-xs space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-800 dark:text-slate-200 text-[11px] uppercase tracking-wider flex items-center gap-1">
-                <Sparkles size={12} className="text-emerald-600" />
-                Active Unit In Triage
-              </span>
-              <span className="text-[9px] font-bold uppercase px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                AI Ready
-              </span>
+          {/* Active Unit In Triage Quick Card - Only shown if authorized inspection is in triage */}
+          {activeTriageInspection && (
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-xs space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 text-[11px] uppercase tracking-wider flex items-center gap-1">
+                  <Sparkles size={12} className="text-emerald-600" />
+                  Active Unit In Triage
+                </span>
+                <span className="text-[9px] font-bold uppercase px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  AI Ready
+                </span>
+              </div>
+              <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-tight">
+                {activeTriageInspection.propertyName}: Move-out AI review ready for final sign-off.
+              </p>
+              <NavLink
+                to={`/inspections/${activeTriageInspection.id}/review`}
+                className="mt-1 inline-flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold hover:underline"
+              >
+                Resume Review <ChevronRight size={13} />
+              </NavLink>
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-[11px] leading-tight">
-              Pinecrest Unit 4B: Move-out AI review ready for final sign-off.
-            </p>
-            <NavLink
-              to="/inspections/insp_101/review"
-              className="mt-1 inline-flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold hover:underline"
-            >
-              Resume Review <ChevronRight size={13} />
-            </NavLink>
-          </div>
+          )}
         </div>
 
         {/* Sidebar Footer: Role Switcher, Profile, Theme Toggle */}
@@ -185,10 +237,10 @@ export const LandlordLayout: React.FC = () => {
               )}
               <div className="flex flex-col text-left truncate">
                 <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 leading-tight truncate">
-                  {user?.name || 'Unnati Gupta'}
+                  {user?.name || 'Landlord'}
                 </span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
-                  {user?.company || 'Pacific Heights'}
+                  {user?.company || 'Property Manager'}
                 </span>
               </div>
             </div>
