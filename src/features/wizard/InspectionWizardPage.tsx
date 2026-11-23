@@ -28,7 +28,8 @@ import {
   resetWizard,
 } from '../../store/slices/inspectionWizardSlice';
 import { addToast } from '../../store/slices/uiSlice';
-import { MOCK_PROPERTIES } from '../../services/mockData';
+import { propertyService } from '../../services/propertyService';
+import { useFetch } from '../../hooks/useFetch';
 import { ObjectType, CapturedImageItem } from '../../types/inspection';
 import ImageUploadTile from '../../components/common/ImageUploadTile';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
@@ -45,6 +46,12 @@ export const InspectionWizardPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const { user } = useAppSelector((state) => state.auth);
+  const { data: propertiesList } = useFetch(
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
+  );
+
   const {
     currentStep,
     selectedPropertyId,
@@ -58,8 +65,21 @@ export const InspectionWizardPage: React.FC = () => {
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const properties = propertiesList && propertiesList.length > 0 ? propertiesList : [];
   const selectedProperty =
-    MOCK_PROPERTIES.find((p) => p.id === selectedPropertyId) || MOCK_PROPERTIES[0];
+    properties.find((p) => p.id === selectedPropertyId) ||
+    properties[0] || {
+      id: 'prop_1',
+      name: 'Pinecrest Apartments - Unit 4B',
+      address: '742 Evergreen Terrace',
+      city: 'Springfield',
+      state: 'OR',
+      zip: '97477',
+      rooms: ['Living Room', 'Master Bedroom', 'Kitchen', 'Bathroom'],
+      status: 'vacant' as const,
+      createdAt: '',
+      updatedAt: '',
+    };
   const rooms = selectedProperty.rooms || ['Living Room', 'Master Bedroom', 'Kitchen', 'Bathroom'];
 
   // Calculate completion counts
@@ -69,7 +89,7 @@ export const InspectionWizardPage: React.FC = () => {
 
   const handlePropertyChange = (propertyId: string) => {
     dispatch(setSelectedProperty(propertyId));
-    const prop = MOCK_PROPERTIES.find((p) => p.id === propertyId);
+    const prop = properties.find((p) => p.id === propertyId);
     if (prop && prop.rooms.length > 0) {
       dispatch(setActiveRoom(prop.rooms[0]));
     }
@@ -287,7 +307,7 @@ export const InspectionWizardPage: React.FC = () => {
               onChange={(e) => handlePropertyChange(e.target.value)}
               className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-hidden focus:border-emerald-500"
             >
-              {MOCK_PROPERTIES.map((prop) => (
+              {properties.map((prop) => (
                 <option key={prop.id} value={prop.id}>
                   {prop.name} — {prop.address}, {prop.city}
                 </option>

@@ -11,15 +11,17 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
+import { useAppSelector } from '../../hooks/useRedux';
 import { disputeService } from '../../services/disputeService';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
 
 export const TenantDisputesPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
 
   const { data: disputes, loading } = useFetch(
-    () => disputeService.getDisputes({ tenantId: 'usr_tenant_1' }),
-    []
+    () => disputeService.getDisputes({ tenantId: user?.id || 'usr_tenant_1' }),
+    [user?.id]
   );
 
   return (

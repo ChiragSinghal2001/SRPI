@@ -1,0 +1,37 @@
+[
+  {
+    "id": "maint_1",
+    "propertyId": "prop_1",
+    "propertyName": "Pinecrest Apartments - Unit 4B",
+    "room": "Living Room",
+    "object": "floor",
+    "title": "Hardwood Buffing & Sealant Patch",
+    "description": "Repair deep floor gouges identified during move-out inspection.",
+    "severity": "major",
+    "status": "open",
+    "estimatedCost": 260,
+    "assignedVendor": "Apex Flooring Specialists",
+    "targetCompletionDate": "2026-11-25",
+    "autoCreatedFromFindingId": "find_4",
+    "createdAt": "2026-11-18T18:10:00Z",
+    "updatedAt": "2026-11-18T18:10:00Z"
+  },
+  {
+    "id": "maint_2",
+    "propertyId": "prop_1",
+    "propertyName": "Pinecrest Apartments - Unit 4B",
+    "room": "Living Room",
+    "object": "door",
+    "title": "Door Latch Realignment & Wood Fill",
+    "description": "Sand splintered wood and replace strike latch plate.",
+    "severity": "moderate",
+    "status": "in_progress",
+    "estimatedCost": 140,
+    "assignedVendor": "Bay Area Carpentry & Hardware",
+    "targetCompletionDate": "2026-11-23",
+    "autoCreatedFromFindingId": "find_2",
+    "createdAt": "2026-11-18T18:10:00Z",
+    "updatedAt": "2026-11-19T10:00:00Z"
+  }
+]
+

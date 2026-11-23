@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus, User, Mail, KeyRound, Building, Phone } from 'lucide-react';
+import { UserPlus, User, Mail, KeyRound, Building, Phone, AlertCircle } from 'lucide-react';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setCredentials } from '../../store/slices/authSlice';
+import { addToast } from '../../store/slices/uiSlice';
+import { authService } from '../../services/authService';
 
 const signupSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -13,7 +15,7 @@ const signupSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
   role: z.enum(['LANDLORD', 'TENANT']),
   company: z.string().optional(),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
+  phone: z.string().min(7, 'Please enter a valid phone number'),
 });
 
 type SignupFormValues = z.infer<typeof signupSchema>;
@@ -21,6 +23,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export const SignupPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
     register,
@@ -43,26 +46,41 @@ export const SignupPage: React.FC = () => {
   const selectedRole = watch('role');
 
   const onSubmit = async (values: SignupFormValues) => {
-    await new Promise((res) => setTimeout(res, 600));
+    setErrorMessage(null);
+    try {
+      const { user, token } = await authService.register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        role: values.role,
+        phone: values.phone,
+        company: values.company,
+      });
 
-    dispatch(
-      setCredentials({
-        user: {
-          id: `usr_${Date.now()}`,
-          name: values.name,
-          email: values.email,
-          role: values.role,
-          company: values.company || (values.role === 'LANDLORD' ? 'Independent Landlord' : undefined),
-          phone: values.phone,
-        },
-        token: `mock_jwt_token_${Date.now()}`,
-      })
-    );
+      dispatch(setCredentials({ user, token }));
+      dispatch(
+        addToast({
+          type: 'success',
+          title: 'Account Created Successfully',
+          message: `Welcome to SmartInspector, ${user.name}!`,
+        })
+      );
 
-    if (values.role === 'LANDLORD') {
-      navigate('/dashboard', { replace: true });
-    } else {
-      navigate('/tenant', { replace: true });
+      if (values.role === 'LANDLORD') {
+        navigate('/dashboard', { replace: true });
+      } else {
+        navigate('/tenant', { replace: true });
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Could not create account. Please try again.';
+      setErrorMessage(msg);
+      dispatch(
+        addToast({
+          type: 'error',
+          title: 'Registration Failed',
+          message: msg,
+        })
+      );
     }
   };
 
@@ -104,6 +122,13 @@ export const SignupPage: React.FC = () => {
         </div>
       </div>
 
+      {errorMessage && (
+        <div className="mb-4 p-3 rounded-xl bg-red-950/60 border border-red-800 text-red-200 text-xs flex items-start gap-2.5">
+          <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         {/* Full Name */}
         <div>
@@ -115,7 +140,7 @@ export const SignupPage: React.FC = () => {
             <input
               {...register('name')}
               className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
-              placeholder="e.g. Jane Doe"
+              placeholder="e.g. Alex Johnson"
             />
           </div>
           {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name.message}</p>}
@@ -132,7 +157,7 @@ export const SignupPage: React.FC = () => {
               {...register('email')}
               type="email"
               className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
-              placeholder="jane@example.com"
+              placeholder="alex@example.com"
             />
           </div>
           {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>}
@@ -165,7 +190,7 @@ export const SignupPage: React.FC = () => {
             <input
               {...register('phone')}
               className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-hidden focus:border-emerald-500"
-              placeholder="+1 (555) 000-0000"
+              placeholder="+1 (555) 123-4567"
             />
           </div>
           {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone.message}</p>}
@@ -190,7 +215,7 @@ export const SignupPage: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full mt-4 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2"
+          className="w-full mt-4 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2 active:scale-98"
         >
           {isSubmitting ? (
             <span>Creating account...</span>

@@ -18,7 +18,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { inspectionService } from '../../services/inspectionService';
 import { disputeService } from '../../services/disputeService';
 import { InspectionFinding } from '../../types/inspection';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { addToast } from '../../store/slices/uiSlice';
 import StatusChip from '../../components/common/StatusChip';
 import ConfidenceBadge from '../../components/common/ConfidenceBadge';
@@ -29,6 +29,7 @@ export const TenantReportViewerPage: React.FC = () => {
   const { id = 'insp_101' } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   // Dispute modal state
   const [disputeTargetItem, setDisputeTargetItem] = useState<InspectionFinding | null>(null);
@@ -82,8 +83,8 @@ export const TenantReportViewerPage: React.FC = () => {
         propertyId: inspection.propertyId,
         propertyName: inspection.propertyName,
         unit: inspection.unit,
-        tenantId: 'usr_tenant_1',
-        tenantName: 'Anushka Raj Jain',
+        tenantId: user?.id || 'usr_tenant_1',
+        tenantName: user?.name || 'Resident',
         room: disputeTargetItem.room,
         object: disputeTargetItem.object,
         assessedAmount: disputeTargetItem.landlordReview.estimatedCost || 100,
@@ -113,10 +114,37 @@ export const TenantReportViewerPage: React.FC = () => {
     }
   };
 
+  const isAuthorized =
+    !inspection ||
+    inspection.tenantId === user?.id ||
+    (user?.id === 'usr_tenant_1' && inspection.tenantId === 'usr_tenant_1') ||
+    (user?.email && inspection.tenantEmail?.toLowerCase() === user.email.toLowerCase());
+
   if (loading || !inspection) {
     return (
       <div className="max-w-4xl mx-auto space-y-4">
         <CardSkeleton />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="max-w-md mx-auto my-16 p-8 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <AlertOctagon size={48} className="mx-auto text-amber-500 opacity-90" />
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          Access Restricted
+        </h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          This inspection report belongs to another tenant or rental property. You are not authorized to view or dispute this document.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('/tenant')}
+          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+        >
+          Return to Tenant Home
+        </button>
       </div>
     );
   }

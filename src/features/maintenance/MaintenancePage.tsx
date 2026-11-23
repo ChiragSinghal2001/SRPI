@@ -13,16 +13,27 @@ import {
 import { useFetch } from '../../hooks/useFetch';
 import { maintenanceService } from '../../services/maintenanceService';
 import { MaintenanceTicket, MaintenanceStatus } from '../../types/maintenance';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
+import { propertyService } from '../../services/propertyService';
 import { addToast } from '../../store/slices/uiSlice';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
 
 export const MaintenancePage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const { data: properties } = useFetch(
+    () => propertyService.getProperties({ landlordId: user?.id }),
+    [user?.id]
+  );
+  const propertyIds = properties?.map((p) => p.id) || [];
 
   const { data: tickets, loading, refetch } = useFetch(
-    () => maintenanceService.getTickets(),
-    []
+    () =>
+      propertyIds.length > 0
+        ? maintenanceService.getTickets({ propertyIds })
+        : Promise.resolve([]),
+    [propertyIds.join(',')]
   );
 
   const handleStatusChange = async (id: string, newStatus: MaintenanceStatus) => {

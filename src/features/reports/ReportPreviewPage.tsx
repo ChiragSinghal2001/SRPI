@@ -15,10 +15,12 @@ import {
   Download,
   DollarSign,
   ChevronLeft,
+  ShieldAlert,
 } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
 import { inspectionService } from '../../services/inspectionService';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { propertyService } from '../../services/propertyService';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { addToast } from '../../store/slices/uiSlice';
 import StatusChip from '../../components/common/StatusChip';
 import ConfidenceBadge from '../../components/common/ConfidenceBadge';
@@ -29,6 +31,7 @@ export const ReportPreviewPage: React.FC = () => {
   const { id = 'insp_101' } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   const [showLockDialog, setShowLockDialog] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
@@ -38,6 +41,21 @@ export const ReportPreviewPage: React.FC = () => {
     loading,
     refetch,
   } = useFetch(() => inspectionService.getInspectionById(id), [id]);
+
+  const { data: properties } = useFetch(
+    () =>
+      user?.role === 'LANDLORD'
+        ? propertyService.getProperties({ landlordId: user?.id })
+        : Promise.resolve([]),
+    [user?.id]
+  );
+  const propertyIds = properties?.map((p) => p.id) || [];
+  const isAuthorized =
+    !inspection ||
+    (user?.role === 'LANDLORD'
+      ? propertyIds.includes(inspection.propertyId)
+      : inspection.tenantId === user?.id ||
+        (user?.email && inspection.tenantEmail?.toLowerCase() === user.email.toLowerCase()));
 
   const handlePrint = () => {
     window.print();
@@ -95,6 +113,27 @@ export const ReportPreviewPage: React.FC = () => {
     return (
       <div className="max-w-4xl mx-auto space-y-4">
         <CardSkeleton />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="max-w-md mx-auto my-16 p-8 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <ShieldAlert size={48} className="mx-auto text-amber-500 opacity-90" />
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          Access Restricted
+        </h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          This inspection report belongs to another property portfolio. You are not authorized to view or manage this document.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard')}
+          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+        >
+          Return to Dashboard
+        </button>
       </div>
     );
   }

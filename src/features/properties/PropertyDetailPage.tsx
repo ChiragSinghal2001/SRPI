@@ -15,11 +15,12 @@ import {
   History,
   CheckCircle2,
   ArrowRight,
+  ShieldAlert,
 } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
 import { propertyService } from '../../services/propertyService';
 import { inspectionService } from '../../services/inspectionService';
-import { useAppDispatch } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { setSelectedProperty, setStep } from '../../store/slices/inspectionWizardSlice';
 import Timeline, { TimelineEvent } from '../../components/common/Timeline';
 import { CardSkeleton } from '../../components/common/LoadingSkeleton';
@@ -28,6 +29,7 @@ export const PropertyDetailPage: React.FC = () => {
   const { id = 'prop_1' } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   const { data: property, loading: propLoading } = useFetch(
     () => propertyService.getPropertyById(id),
@@ -39,6 +41,8 @@ export const PropertyDetailPage: React.FC = () => {
     [id]
   );
 
+  const isAuthorized = !property || !property.landlordId || property.landlordId === user?.id;
+
   const handleStartInspectionForProperty = () => {
     dispatch(setSelectedProperty(id));
     dispatch(setStep(1));
@@ -49,6 +53,27 @@ export const PropertyDetailPage: React.FC = () => {
     return (
       <div className="max-w-6xl mx-auto space-y-6">
         <CardSkeleton />
+      </div>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <div className="max-w-md mx-auto my-16 p-8 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <ShieldAlert size={48} className="mx-auto text-amber-500 opacity-90" />
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          Access Restricted
+        </h2>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          This property is managed by another landlord account. You are not authorized to view its details or inspection history.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate('/properties')}
+          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-xs"
+        >
+          Return to Properties
+        </button>
       </div>
     );
   }

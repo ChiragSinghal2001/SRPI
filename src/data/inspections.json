@@ -1,0 +1,189 @@
+[
+  {
+    "id": "insp_101",
+    "propertyId": "prop_1",
+    "propertyName": "Pinecrest Apartments - Unit 4B",
+    "unit": "4B",
+    "type": "move_out",
+    "status": "ai_reviewed",
+    "scheduledDate": "2026-11-18",
+    "inspectorName": "Unnati Gupta",
+    "tenantId": "usr_tenant_1",
+    "tenantName": "Anushka Raj Jain",
+    "tenantEmail": "Anushka.miller@example.com",
+    "capturedImages": {},
+    "findings": [
+      {
+        "id": "find_1",
+        "room": "Living Room",
+        "object": "wall",
+        "beforeImageUrl": "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&auto=format&fit=crop&q=80",
+        "afterImageUrl": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=900&auto=format&fit=crop&q=80",
+        "aiFinding": {
+          "object": "wall",
+          "room": "Living Room",
+          "status": "flagged",
+          "severity": "minor",
+          "confidence": 0.84,
+          "description": "Scuff marks and surface abrasions near lower baseboard corner."
+        },
+        "landlordReview": {
+          "status": "flagged",
+          "severity": "minor",
+          "notes": "Light surface rub marks, can be buffed or touched up with leftover primer.",
+          "estimatedCost": 45,
+          "isEdited": false
+        }
+      },
+      {
+        "id": "find_2",
+        "room": "Living Room",
+        "object": "door",
+        "beforeImageUrl": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=900&auto=format&fit=crop&q=80",
+        "afterImageUrl": "https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?w=900&auto=format&fit=crop&q=80",
+        "aiFinding": {
+          "object": "door",
+          "room": "Living Room",
+          "status": "damaged",
+          "severity": "moderate",
+          "confidence": 0.92,
+          "description": "Dented surface and deep scratch near lower door handle latch."
+        },
+        "landlordReview": {
+          "status": "damaged",
+          "severity": "moderate",
+          "notes": "Handle plate chipped and wood splintered from forced closure.",
+          "estimatedCost": 140,
+          "isEdited": true,
+          "editedAt": "2026-11-18T17:42:00Z"
+        }
+      },
+      {
+        "id": "find_3",
+        "room": "Living Room",
+        "object": "window",
+        "beforeImageUrl": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=900&auto=format&fit=crop&q=80",
+        "afterImageUrl": "https://images.unsplash.com/photo-1540518614846-7ede433c4ef7?w=900&auto=format&fit=crop&q=80",
+        "aiFinding": {
+          "object": "window",
+          "room": "Living Room",
+          "status": "flagged",
+          "severity": "minor",
+          "confidence": 0.64,
+          "description": "Potential smudge or hairline stress mark on inner pane glazing."
+        },
+        "landlordReview": {
+          "status": "good",
+          "severity": "minor",
+          "notes": "Inspected manually: just condensation streak, glass is completely intact.",
+          "estimatedCost": 0,
+          "isEdited": true,
+          "editedAt": "2026-11-18T17:45:00Z"
+        }
+      },
+      {
+        "id": "find_4",
+        "room": "Living Room",
+        "object": "floor",
+        "beforeImageUrl": "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?w=900&auto=format&fit=crop&q=80",
+        "afterImageUrl": "https://images.unsplash.com/photo-1615873968403-89e068629265?w=900&auto=format&fit=crop&q=80",
+        "aiFinding": {
+          "object": "floor",
+          "room": "Living Room",
+          "status": "damaged",
+          "severity": "major",
+          "confidence": 0.89,
+          "description": "Multiple deep scratches through polyurethane seal into hardwood grain."
+        },
+        "landlordReview": {
+          "status": "damaged",
+          "severity": "major",
+          "notes": "Furniture dragged across hardwood without felt floor guards.",
+          "estimatedCost": 260,
+          "isEdited": false
+        }
+      },
+      {
+        "id": "find_5",
+        "room": "Master Bedroom",
+        "object": "wall",
+        "beforeImageUrl": "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=900&auto=format&fit=crop&q=80",
+        "afterImageUrl": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=900&auto=format&fit=crop&q=80",
+        "aiFinding": {
+          "object": "wall",
+          "room": "Master Bedroom",
+          "status": "good",
+          "confidence": 0.95,
+          "description": "No significant discrepancies detected. Paint integrity maintained."
+        },
+        "landlordReview": {
+          "status": "good",
+          "notes": "Normal wear and tear. Excellent condition.",
+          "estimatedCost": 0,
+          "isEdited": false
+        }
+      },
+      {
+        "id": "find_6",
+        "room": "Master Bedroom",
+        "object": "door",
+        "beforeImageUrl": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=900&auto=format&fit=crop&q=80",
+        "afterImageUrl": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=900&auto=format&fit=crop&q=80",
+        "aiFinding": {
+          "object": "door",
+          "room": "Master Bedroom",
+          "status": "good",
+          "confidence": 0.98,
+          "description": "Hinges, face, and hardware intact with original baseline."
+        },
+        "landlordReview": {
+          "status": "good",
+          "notes": "Matches baseline.",
+          "estimatedCost": 0,
+          "isEdited": false
+        }
+      }
+    ],
+    "aiJobId": "job_ai_99182",
+    "aiJobStatus": "completed",
+    "aiJobProgress": 100,
+    "reportHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "isLocked": false,
+    "landlordSignature": {
+      "signedBy": "Unnati Gupta",
+      "role": "LANDLORD",
+      "signedAt": "2026-11-18T18:00:00Z"
+    },
+    "createdAt": "2026-11-18T14:00:00Z",
+    "updatedAt": "2026-11-18T18:00:00Z"
+  },
+  {
+    "id": "insp_102",
+    "propertyId": "prop_2",
+    "propertyName": "Sunset Palms Condominiums - Unit 12A",
+    "unit": "12A",
+    "type": "move_in",
+    "status": "finalized",
+    "scheduledDate": "2025-06-01",
+    "inspectorName": "Unnati Gupta",
+    "tenantId": "usr_tenant_2",
+    "tenantName": "David Kim",
+    "tenantEmail": "david.kim@example.com",
+    "capturedImages": {},
+    "findings": [],
+    "reportHash": "a7c924bc109f1d82ef45b736991b92014dfa098b1e422176495991b7852ba714",
+    "isLocked": true,
+    "landlordSignature": {
+      "signedBy": "Unnati Gupta",
+      "role": "LANDLORD",
+      "signedAt": "2025-06-01T15:20:00Z"
+    },
+    "tenantSignature": {
+      "signedBy": "David Kim",
+      "role": "TENANT",
+      "signedAt": "2025-06-02T09:15:00Z"
+    },
+    "createdAt": "2025-06-01T11:00:00Z",
+    "updatedAt": "2025-06-02T09:15:00Z"
+  }
+]

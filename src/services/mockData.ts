@@ -65,6 +65,7 @@ export const MOCK_IMAGES = {
 export const MOCK_PROPERTIES: Property[] = [
   {
     id: 'prop_1',
+    landlordId: 'usr_landlord_1',
     name: 'Pinecrest Apartments - Unit 4B',
     address: '742 Evergreen Terrace',
     city: 'Springfield',
@@ -93,6 +94,7 @@ export const MOCK_PROPERTIES: Property[] = [
   },
   {
     id: 'prop_2',
+    landlordId: 'usr_landlord_1',
     name: 'Sunset Palms Condominiums - Unit 12A',
     address: '1040 Ocean Boulevard',
     city: 'Santa Monica',
@@ -121,6 +123,7 @@ export const MOCK_PROPERTIES: Property[] = [
   },
   {
     id: 'prop_3',
+    landlordId: 'usr_landlord_1',
     name: 'Highland Modern Lofts - Unit 302',
     address: '450 North Highland Avenue',
     city: 'Atlanta',

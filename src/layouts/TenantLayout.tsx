@@ -16,6 +16,10 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
+import { useFetch } from '../hooks/useFetch';
+import { propertyService } from '../services/propertyService';
+import { inspectionService } from '../services/inspectionService';
+import { disputeService } from '../services/disputeService';
 import { toggleTheme } from '../store/slices/uiSlice';
 import { switchDemoRole, logout } from '../store/slices/authSlice';
 import { cn } from '../utils/cn';
@@ -29,10 +33,47 @@ export const TenantLayout: React.FC = () => {
   const { user, role } = useAppSelector((state) => state.auth);
   const theme = useAppSelector((state) => state.ui.theme);
 
+  const { data: properties } = useFetch(() => propertyService.getProperties(), []);
+  const activeLeasedProperty = properties?.find(
+    (p) =>
+      p.currentTenant &&
+      (p.currentTenant.id === user?.id ||
+        (user?.email && p.currentTenant.email.toLowerCase() === user.email.toLowerCase()) ||
+        (user?.id === 'usr_tenant_1' && p.currentTenant.id === 'usr_tenant_1'))
+  );
+
+  const { data: inspections } = useFetch(
+    () =>
+      activeLeasedProperty
+        ? inspectionService.getInspections({ propertyId: activeLeasedProperty.id })
+        : Promise.resolve([]),
+    [activeLeasedProperty?.id]
+  );
+
+  const { data: disputes } = useFetch(
+    () =>
+      user?.id
+        ? disputeService.getDisputes({ tenantId: user.id })
+        : Promise.resolve([]),
+    [user?.id]
+  );
+
+  const activeInspectionId = inspections?.[0]?.id;
+  const openDisputesCount = disputes?.filter((d) => d.status === 'open').length || 0;
+
   const navItems = [
     { label: 'My Property', to: '/tenant', icon: Home },
-    { label: 'Inspection Reports', to: '/tenant/reports/insp_101', icon: FileCheck2 },
-    { label: 'Disputes & Claims', to: '/tenant/disputes', icon: AlertOctagon, badge: '1' },
+    {
+      label: 'Inspection Reports',
+      to: activeInspectionId ? `/tenant/reports/${activeInspectionId}` : '/tenant',
+      icon: FileCheck2,
+    },
+    {
+      label: 'Disputes & Claims',
+      to: '/tenant/disputes',
+      icon: AlertOctagon,
+      badge: openDisputesCount > 0 ? String(openDisputesCount) : undefined,
+    },
     { label: 'Maintenance Status', to: '/tenant/maintenance', icon: Wrench },
   ];
 
@@ -171,10 +212,10 @@ export const TenantLayout: React.FC = () => {
               )}
               <div className="flex flex-col text-left truncate">
                 <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 leading-tight truncate">
-                  {user?.name || 'Anushka Raj Jain'}
+                  {user?.name || 'Resident'}
                 </span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
-                  Unit 4B Resident
+                  {user?.assignedPropertyId ? 'Verified Resident' : 'Prospective Resident'}
                 </span>
               </div>
             </div>
