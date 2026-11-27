@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Background Navy Blue -->
+  <rect width="512" height="512" rx="96" fill="#0a2140"/>
+
+  <g transform="translate(256, 256) scale(1.6) translate(-130, -135)">
+    <!-- House Outline with Chimney and Eaves -->
+    <path
+      d="M 130 30 
+         L 35 110 
+         L 58 110 
+         L 58 220 
+         L 202 220 
+         L 202 110 
+         L 225 110 
+         L 190 80 
+         L 190 48 
+         L 172 48 
+         L 172 65 
+         Z"
+      fill="none"
+      stroke="#00a884"
+      stroke-width="16"
+      stroke-linejoin="miter"
+      stroke-linecap="square"
+    />
+
+    <!-- White Bottom-Right Corner Accent -->
+    <path
+      d="M 184 202 L 202 202 L 202 184 L 216 184 L 216 216 L 184 216 Z"
+      fill="#ffffff"
+    />
+
+    <!-- Magnifying Glass / Camera Aperture Rim -->
+    <circle
+      cx="130"
+      cy="135"
+      r="48"
+      fill="none"
+      stroke="#00a884"
+      stroke-width="14"
+    />
+
+    <!-- Aperture Shutter Blades & Disc (White blades on Navy) -->
+    <g transform="translate(130, 135)">
+      <!-- Outer circle fill for the iris -->
+      <circle cx="0" cy="0" r="41" fill="#0a2140" />
+
+      <!-- 6 Camera Aperture Blades (White) -->
+      <!-- Blade 1 -->
+      <path d="M 0 -41 L 24 -14 L 38 -15 A 41 41 0 0 0 0 -41 Z" fill="#ffffff" />
+      <!-- Blade 2 -->
+      <path d="M 35 -20 L 24 14 L 34 22 A 41 41 0 0 0 35 -20 Z" fill="#ffffff" />
+      <!-- Blade 3 -->
+      <path d="M 35 20 L 0 28 L 0 41 A 41 41 0 0 0 35 20 Z" fill="#ffffff" />
+      <!-- Blade 4 -->
+      <path d="M 0 41 L -24 14 L -38 15 A 41 41 0 0 0 0 41 Z" fill="#ffffff" />
+      <!-- Blade 5 -->
+      <path d="M -35 20 L -24 -14 L -34 -22 A 41 41 0 0 0 -35 20 Z" fill="#ffffff" />
+      <!-- Blade 6 -->
+      <path d="M -35 -20 L 0 -28 L 0 -41 A 41 41 0 0 0 -35 -20 Z" fill="#ffffff" />
+
+      <!-- Central Emerald Aperture Core -->
+      <circle cx="0" cy="0" r="14" fill="#00a884" />
+    </g>
+
+    <!-- Magnifying Glass Checkmark Handle (Sweeps out to the right) -->
+    <path
+      d="M 164 169
+         L 164 195
+         L 142 173
+         L 155 198
+         L 172 218
+         L 236 128
+         C 220 148, 195 185, 172 195
+         L 164 169 Z"
+      fill="#00a884"
+    />
+  </g>
+</svg>

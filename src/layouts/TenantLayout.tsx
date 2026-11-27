@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Building2,
   Home,
   FileCheck2,
   AlertOctagon,
@@ -15,6 +14,7 @@ import {
   ChevronRight,
   ShieldCheck,
 } from 'lucide-react';
+import { AppLogo } from '../components/common/AppLogo';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { useFetch } from '../hooks/useFetch';
 import { propertyService } from '../services/propertyService';
@@ -77,6 +77,12 @@ export const TenantLayout: React.FC = () => {
     { label: 'Maintenance Status', to: '/tenant/maintenance', icon: Wrench },
   ];
 
+  const isItemActive = (item: (typeof navItems)[0]) => {
+    if (item.label === 'My Property') return location.pathname === '/tenant';
+    if (item.label === 'Inspection Reports') return location.pathname.startsWith('/tenant/reports');
+    return location.pathname.startsWith(item.to);
+  };
+
   const handleRoleSwitch = () => {
     dispatch(switchDemoRole('LANDLORD'));
     navigate('/dashboard');
@@ -96,9 +102,7 @@ export const TenantLayout: React.FC = () => {
         {/* Brand Header */}
         <div className="h-16 px-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <NavLink to="/tenant" className="flex items-center gap-2.5 font-bold text-lg tracking-tight group">
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs group-hover:bg-emerald-700 transition-colors">
-              <Building2 size={20} />
-            </div>
+            <AppLogo size="md" />
             <div className="flex flex-col">
               <span className="leading-tight text-slate-900 dark:text-white font-extrabold text-base">
                 Smart<span className="text-emerald-600 dark:text-emerald-400">Inspector</span>
@@ -120,14 +124,11 @@ export const TenantLayout: React.FC = () => {
             <nav className="space-y-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive =
-                  item.to === '/tenant'
-                    ? location.pathname === '/tenant'
-                    : location.pathname.startsWith(item.to);
+                const isActive = isItemActive(item);
 
                 return (
                   <NavLink
-                    key={item.to}
+                    key={item.label}
                     to={item.to}
                     className={cn(
                       'flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group',
@@ -261,9 +262,7 @@ export const TenantLayout: React.FC = () => {
         </button>
 
         <NavLink to="/tenant" className="flex items-center gap-2 font-bold text-base">
-          <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
-            <Building2 size={16} />
-          </div>
+          <AppLogo size="sm" />
           <span className="text-slate-900 dark:text-white font-extrabold text-sm">
             Smart<span className="text-emerald-600 dark:text-emerald-400">Inspector</span>
           </span>
@@ -284,9 +283,7 @@ export const TenantLayout: React.FC = () => {
           <div className="w-72 bg-white dark:bg-slate-900 h-full p-4 flex flex-col shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-3">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
-                  <Building2 size={16} />
-                </div>
+                <AppLogo size="sm" />
                 <span className="font-extrabold text-sm text-slate-900 dark:text-slate-100">
                   Tenant Navigation
                 </span>
@@ -314,14 +311,11 @@ export const TenantLayout: React.FC = () => {
             <nav className="space-y-1 flex-1 overflow-y-auto">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive =
-                  item.to === '/tenant'
-                    ? location.pathname === '/tenant'
-                    : location.pathname.startsWith(item.to);
+                const isActive = isItemActive(item);
 
                 return (
                   <NavLink
-                    key={item.to}
+                    key={item.label}
                     to={item.to}
                     onClick={() => setMobileMenuOpen(false)}
                     className={cn(

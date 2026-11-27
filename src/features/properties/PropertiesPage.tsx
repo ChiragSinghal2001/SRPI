@@ -11,6 +11,9 @@ import {
   Edit2,
   X,
   Check,
+  ShieldCheck,
+  Clock,
+  ShieldAlert,
 } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
 import { propertyService } from '../../services/propertyService';
@@ -90,8 +93,8 @@ export const PropertiesPage: React.FC = () => {
       dispatch(
         addToast({
           type: 'success',
-          title: 'Property Added',
-          message: `${propertyName} has been registered to your portfolio.`,
+          title: 'Property Submitted for Verification',
+          message: `${propertyName} registered! It is now pending Admin deed verification before appearing to prospective tenants.`,
         })
       );
 
@@ -182,6 +185,24 @@ export const PropertiesPage: React.FC = () => {
                       {prop.status.replace('_', ' ')}
                     </span>
                   </div>
+                  <div className="absolute top-3 right-3">
+                    {prop.genuinenessStatus === 'verified' ? (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-950/85 text-emerald-300 border border-emerald-500/30 backdrop-blur-md flex items-center gap-1 shadow-sm">
+                        <ShieldCheck size={11} className="text-emerald-400" />
+                        <span>Verified by Admin</span>
+                      </span>
+                    ) : prop.genuinenessStatus === 'flagged_discrepancy' ? (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-950/85 text-red-300 border border-red-500/30 backdrop-blur-md flex items-center gap-1 shadow-sm">
+                        <ShieldAlert size={11} className="text-red-400" />
+                        <span>Discrepancy</span>
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-950/85 text-amber-300 border border-amber-500/30 backdrop-blur-md flex items-center gap-1 shadow-sm">
+                        <Clock size={11} className="text-amber-400" />
+                        <span>Pending Admin Verification</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Details */}
@@ -230,6 +251,15 @@ export const PropertiesPage: React.FC = () => {
                       </span>
                     )}
                   </div>
+                  {/* Verification Notice Banner */}
+                  {prop.genuinenessStatus !== 'verified' && (
+                    <div className="pt-2">
+                      <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 text-[11px] text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
+                        <Clock size={12} className="shrink-0 text-amber-600" />
+                        <span>Under admin deed review &mdash; not visible to tenants yet</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -263,6 +293,13 @@ export const PropertiesPage: React.FC = () => {
               >
                 <X size={18} />
               </button>
+            </div>
+
+            <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-[11px] text-emerald-800 dark:text-emerald-300 flex items-start gap-2">
+              <ShieldCheck size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+              <span>
+                <strong>Admin Oversight Notice:</strong> Once submitted, an Administrator will verify the property deed. It will become visible in the public tenant marketplace only after verification.
+              </span>
             </div>
 
             <form onSubmit={handleCreateProperty} className="space-y-3">

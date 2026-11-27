@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Building2, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
+import { AppLogo } from '../components/common/AppLogo';
 
 export const AuthLayout: React.FC = () => {
   return (
@@ -9,8 +10,8 @@ export const AuthLayout: React.FC = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-600/10 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10 px-4">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-600 text-white shadow-xl mb-4">
-          <Building2 size={32} />
+        <div className="flex justify-center mb-4">
+          <AppLogo size={64} className="shadow-2xl ring-2 ring-emerald-500/40" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
           Smart<span className="text-emerald-500">Inspector</span>

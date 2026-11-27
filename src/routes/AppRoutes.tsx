@@ -5,8 +5,10 @@ import { useAppSelector } from '../hooks/useRedux';
 // Layouts
 import LandlordLayout from '../layouts/LandlordLayout';
 import TenantLayout from '../layouts/TenantLayout';
+import AdminLayout from '../layouts/AdminLayout';
 import AuthLayout from '../layouts/AuthLayout';
 import RoleGuard from './RoleGuard';
+import AdminRoute from './AdminRoute';
 
 // Auth Pages
 import LoginPage from '../features/auth/LoginPage';
@@ -30,6 +32,18 @@ import TenantReportViewerPage from '../features/tenant-portal/TenantReportViewer
 import TenantDisputesPage from '../features/tenant-portal/TenantDisputesPage';
 import TenantMaintenancePage from '../features/tenant-portal/TenantMaintenancePage';
 
+// Admin Pages
+import AdminDashboardPage from '../features/admin/AdminDashboardPage';
+import AdminUsersPage from '../features/admin/AdminUsersPage';
+import AdminUserDetailPage from '../features/admin/AdminUserDetailPage';
+import AdminPropertiesPage from '../features/admin/AdminPropertiesPage';
+import AdminReportsPage from '../features/admin/AdminReportsPage';
+import AdminAiJobsPage from '../features/admin/AdminAiJobsPage';
+import AdminDisputesPage from '../features/admin/AdminDisputesPage';
+import AdminAuditLogsPage from '../features/admin/AdminAuditLogsPage';
+import AdminSettingsPage from '../features/admin/AdminSettingsPage';
+import AdminProfilePage from '../features/admin/AdminProfilePage';
+
 const RootRedirect: React.FC = () => {
   const { isAuthenticated, role } = useAppSelector((state) => state.auth);
 
@@ -37,7 +51,12 @@ const RootRedirect: React.FC = () => {
     return <Navigate to="/login" replace />;
   }
 
-  if (role === 'TENANT') {
+  const normalizedRole = role?.toLowerCase();
+  if (normalizedRole === 'admin') {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
+  if (normalizedRole === 'tenant') {
     return <Navigate to="/tenant" replace />;
   }
 
@@ -88,6 +107,27 @@ export const AppRoutes: React.FC = () => {
         <Route path="/tenant/reports/:id" element={<TenantReportViewerPage />} />
         <Route path="/tenant/disputes" element={<TenantDisputesPage />} />
         <Route path="/tenant/maintenance" element={<TenantMaintenancePage />} />
+      </Route>
+
+      {/* Admin Protected Portal */}
+      <Route
+        element={
+          <AdminRoute>
+            <AdminLayout />
+          </AdminRoute>
+        }
+      >
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/users/:id" element={<AdminUserDetailPage />} />
+        <Route path="/admin/properties" element={<AdminPropertiesPage />} />
+        <Route path="/admin/reports" element={<AdminReportsPage />} />
+        <Route path="/admin/ai-jobs" element={<AdminAiJobsPage />} />
+        <Route path="/admin/disputes" element={<AdminDisputesPage />} />
+        <Route path="/admin/audit-logs" element={<AdminAuditLogsPage />} />
+        <Route path="/admin/settings" element={<AdminSettingsPage />} />
+        <Route path="/admin/profile" element={<AdminProfilePage />} />
       </Route>
 
       {/* Catch-all 404 */}

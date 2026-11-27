@@ -228,7 +228,7 @@ export const AIReviewPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300 flex items-center gap-1">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 flex items-center gap-1">
               <Sparkles size={13} /> AI Damage Comparison
             </span>
             <span className="text-xs text-slate-500 font-medium">
@@ -264,23 +264,23 @@ export const AIReviewPage: React.FC = () => {
 
       {/* AI Processing Banner (Driven by usePolling hook) */}
       {isPolling && pollData && (
-        <div className="p-4 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-purple-900 dark:text-purple-200 space-y-2 animate-pulse">
+        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 space-y-2 animate-pulse">
           <div className="flex items-center justify-between text-xs font-bold">
             <span className="flex items-center gap-1.5">
-              <Sparkles size={16} className="text-purple-600 animate-spin" />
+              <Sparkles size={16} className="text-emerald-600 animate-spin" />
               AI Model Processing: {pollData.progress}%
             </span>
             <span className="font-mono">
               {pollData.processedCount} / {pollData.totalCount} Pairs Analyzed
             </span>
           </div>
-          <div className="w-full bg-purple-200 dark:bg-purple-900/60 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-emerald-200 dark:bg-emerald-900/60 h-2 rounded-full overflow-hidden">
             <div
-              className="bg-purple-600 h-full transition-all duration-300"
+              className="bg-emerald-600 h-full transition-all duration-300"
               style={{ width: `${pollData.progress}%` }}
             />
           </div>
-          <p className="text-[11px] text-purple-700 dark:text-purple-300">
+          <p className="text-[11px] text-emerald-700 dark:text-emerald-300">
             {pollData.currentImage || 'Comparing surface matrices with baseline photos...'}
           </p>
         </div>

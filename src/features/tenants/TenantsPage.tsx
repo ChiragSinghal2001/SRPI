@@ -45,6 +45,23 @@ export const TenantsPage: React.FC = () => {
     [user?.id]
   );
 
+  // Sync first property when modal opens or properties load
+  React.useEffect(() => {
+    if (properties && properties.length > 0 && !selectedPropertyId) {
+      const first = properties[0];
+      setSelectedPropertyId(first.id);
+      if (first.monthlyRent) setRent(String(first.monthlyRent));
+      if (first.securityDeposit) setDeposit(String(first.securityDeposit));
+    }
+  }, [properties, selectedPropertyId]);
+
+  const handlePropertySelect = (propId: string) => {
+    setSelectedPropertyId(propId);
+    const chosen = properties?.find((p) => p.id === propId);
+    if (chosen?.monthlyRent) setRent(String(chosen.monthlyRent));
+    if (chosen?.securityDeposit) setDeposit(String(chosen.securityDeposit));
+  };
+
   const { data: applications, refetch: refetchApps } = useFetch(
     () => rentalService.getApplications({ landlordId: user?.id }),
     [user?.id]
@@ -101,20 +118,31 @@ export const TenantsPage: React.FC = () => {
 
   const handleAssignTenant = async (e: React.FormEvent) => {
     e.preventDefault();
+    const effectivePropId = selectedPropertyId || properties?.[0]?.id;
+    if (!effectivePropId) return;
+
     setIsSubmitting(true);
 
     try {
-      await propertyService.updateProperty(selectedPropertyId, {
+      const targetProperty = properties?.find((p) => p.id === effectivePropId);
+      const parsedRent = parseFloat(rent) || targetProperty?.monthlyRent || 1850;
+      const parsedDeposit = parseFloat(deposit) || targetProperty?.securityDeposit || 2000;
+      const effectiveStart = leaseStart || new Date().toISOString().split('T')[0];
+      const effectiveEnd = leaseEnd || '2027-11-30';
+
+      await propertyService.updateProperty(effectivePropId, {
         status: 'occupied',
+        monthlyRent: parsedRent,
+        securityDeposit: parsedDeposit,
         currentTenant: {
           id: `usr_tenant_${Date.now()}`,
           name: tenantName,
           email: tenantEmail,
           phone: tenantPhone,
-          leaseStartDate: leaseStart,
-          leaseEndDate: leaseEnd,
-          depositAmount: parseFloat(deposit),
-          monthlyRent: parseFloat(rent),
+          leaseStartDate: effectiveStart,
+          leaseEndDate: effectiveEnd,
+          depositAmount: parsedDeposit,
+          monthlyRent: parsedRent,
         },
       });
 
@@ -342,20 +370,20 @@ export const TenantsPage: React.FC = () => {
                     <div>
                       <span className="text-slate-400 block font-medium">Monthly Rent</span>
                       <span className="font-bold text-slate-900 dark:text-white font-mono">
-                        ${tenant.monthlyRent}
+                        ${Number(tenant.monthlyRent || prop.monthlyRent || 1850).toLocaleString()}
                       </span>
                     </div>
                     <div>
                       <span className="text-slate-400 block font-medium">Deposit Held</span>
                       <span className="font-bold text-slate-900 dark:text-white font-mono">
-                        ${tenant.depositAmount}
+                        ${Number(tenant.depositAmount || prop.securityDeposit || 2000).toLocaleString()}
                       </span>
                     </div>
                   </div>
 
                   <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-[11px] text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
                     <Calendar size={13} />
-                    Lease: {tenant.leaseStartDate} to {tenant.leaseEndDate}
+                    Lease: {tenant.leaseStartDate || prop.availableDate || '2026-01-15'} to {tenant.leaseEndDate || '2027-01-14'}
                   </div>
                 </div>
               );
@@ -387,7 +415,7 @@ export const TenantsPage: React.FC = () => {
                 </label>
                 <select
                   value={selectedPropertyId}
-                  onChange={(e) => setSelectedPropertyId(e.target.value)}
+                  onChange={(e) => handlePropertySelect(e.target.value)}
                   className="w-full p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium"
                 >
                   {properties?.map((prop) => (

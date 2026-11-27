@@ -1,4 +1,4 @@
-export type UserRole = 'LANDLORD' | 'TENANT';
+export type UserRole = 'admin' | 'landlord' | 'tenant' | 'ADMIN' | 'LANDLORD' | 'TENANT';
 
 export interface User {
   id: string;
@@ -10,6 +10,9 @@ export interface User {
   phone?: string;
   company?: string;
   assignedPropertyId?: string; // For tenant role
+  status?: 'active' | 'suspended';
+  last_login?: string;
+  created_at?: string;
   createdAt?: string;
 }
 

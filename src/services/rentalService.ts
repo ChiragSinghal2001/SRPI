@@ -92,20 +92,25 @@ export const rentalService = {
     leaseEnd.setMonth(leaseEnd.getMonth() + (app.leaseDurationMonths || 12));
     const leaseEndDateStr = leaseEnd.toISOString().split('T')[0];
 
+    const targetProp = (await propertyService.getAllProperties()).find((p) => p.id === app.propertyId);
+    const resolvedRent = app.monthlyRent || targetProp?.monthlyRent || 1850;
+    const resolvedDeposit = app.depositAmount || targetProp?.securityDeposit || 2000;
+    const resolvedStart = app.moveInDate || new Date().toISOString().split('T')[0];
+
     // Assign tenant to the property in propertyService
     const updatedProperty = await propertyService.updateProperty(app.propertyId, {
       status: 'occupied',
-      monthlyRent: app.monthlyRent,
-      securityDeposit: app.depositAmount,
+      monthlyRent: resolvedRent,
+      securityDeposit: resolvedDeposit,
       currentTenant: {
         id: app.tenantId,
         name: app.tenantName,
         email: app.tenantEmail,
         phone: app.tenantPhone,
-        leaseStartDate: app.moveInDate,
+        leaseStartDate: resolvedStart,
         leaseEndDate: leaseEndDateStr,
-        depositAmount: app.depositAmount,
-        monthlyRent: app.monthlyRent,
+        depositAmount: resolvedDeposit,
+        monthlyRent: resolvedRent,
       },
     });
 
