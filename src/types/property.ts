@@ -12,6 +12,8 @@ export interface TenantInfo {
 export interface Property {
   id: string;
   landlordId?: string;
+  landlordName?: string;
+  landlordEmail?: string;
   name: string;
   address: string;
   city: string;
@@ -26,6 +28,9 @@ export interface Property {
   availableDate?: string;
   description?: string;
   status: 'occupied' | 'vacant' | 'under_inspection';
+  genuinenessStatus?: 'verified' | 'pending_check' | 'flagged_discrepancy';
+  verifiedDeedHash?: string;
+  isVerified?: boolean;
   createdAt: string;
   updatedAt: string;
 }

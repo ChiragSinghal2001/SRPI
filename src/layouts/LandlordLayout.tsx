@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Building2,
   LayoutDashboard,
   Home,
   Users,
@@ -20,6 +19,7 @@ import {
   ChevronRight,
   Sparkles,
 } from 'lucide-react';
+import { AppLogo } from '../components/common/AppLogo';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { useFetch } from '../hooks/useFetch';
 import { propertyService } from '../services/propertyService';
@@ -100,6 +100,14 @@ export const LandlordLayout: React.FC = () => {
     { label: 'Audit Log', to: '/audit-logs', icon: History },
   ];
 
+  const isItemActive = (item: (typeof navItems)[0]) => {
+    if (item.label === 'Dashboard') return location.pathname === '/dashboard';
+    if (item.label === 'New Inspection') return location.pathname === '/inspections/new';
+    if (item.label === 'AI Review') return location.pathname.includes('/review');
+    if (item.label === 'Reports') return location.pathname.startsWith('/reports');
+    return location.pathname.startsWith(item.to);
+  };
+
   const handleRoleSwitch = () => {
     dispatch(switchDemoRole('TENANT'));
     navigate('/tenant');
@@ -119,9 +127,7 @@ export const LandlordLayout: React.FC = () => {
         {/* Brand Header */}
         <div className="h-16 px-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <NavLink to="/dashboard" className="flex items-center gap-2.5 font-bold text-lg tracking-tight group">
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs group-hover:bg-emerald-700 transition-colors">
-              <Building2 size={20} />
-            </div>
+            <AppLogo size="md" />
             <div className="flex flex-col">
               <span className="leading-tight text-slate-900 dark:text-white font-extrabold text-base">
                 Smart<span className="text-emerald-600 dark:text-emerald-400">Inspector</span>
@@ -143,14 +149,11 @@ export const LandlordLayout: React.FC = () => {
             <nav className="space-y-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive =
-                  item.to === '/dashboard'
-                    ? location.pathname === '/dashboard'
-                    : location.pathname.startsWith(item.to);
+                const isActive = isItemActive(item);
 
                 return (
                   <NavLink
-                    key={item.to}
+                    key={item.label}
                     to={item.to}
                     className={cn(
                       'flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all group',
@@ -286,9 +289,7 @@ export const LandlordLayout: React.FC = () => {
         </button>
 
         <NavLink to="/dashboard" className="flex items-center gap-2 font-bold text-base">
-          <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
-            <Building2 size={16} />
-          </div>
+          <AppLogo size="sm" />
           <span className="text-slate-900 dark:text-white font-extrabold text-sm">
             Smart<span className="text-emerald-600 dark:text-emerald-400">Inspector</span>
           </span>
@@ -309,9 +310,7 @@ export const LandlordLayout: React.FC = () => {
           <div className="w-72 bg-white dark:bg-slate-900 h-full p-4 flex flex-col shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 mb-3">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
-                  <Building2 size={16} />
-                </div>
+                <AppLogo size="sm" />
                 <span className="font-extrabold text-sm text-slate-900 dark:text-slate-100">
                   Landlord Navigation
                 </span>
@@ -337,24 +336,25 @@ export const LandlordLayout: React.FC = () => {
             </button>
 
             <nav className="space-y-1 flex-1 overflow-y-auto">
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={({ isActive }) =>
-                    cn(
+              {navItems.map((item) => {
+                const isActive = isItemActive(item);
+                return (
+                  <NavLink
+                    key={item.label}
+                    to={item.to}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
                       'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
                       isActive
                         ? 'bg-emerald-50 text-emerald-800 font-semibold dark:bg-emerald-950/50 dark:text-emerald-300'
                         : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-                    )
-                  }
-                >
-                  <item.icon size={18} />
-                  <span>{item.label}</span>
-                </NavLink>
-              ))}
+                    )}
+                  >
+                    <item.icon size={18} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                );
+              })}
             </nav>
 
             <div className="pt-3 border-t border-slate-200 dark:border-slate-800">

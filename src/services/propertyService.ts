@@ -40,7 +40,12 @@ export const propertyService = {
     if (all && all.length > 0) {
       properties = all;
     }
-    return properties.filter((p) => p.status === 'vacant' || !p.currentTenant);
+    // Only return properties that are vacant AND verified by admin!
+    return properties.filter(
+      (p) =>
+        (p.status === 'vacant' || !p.currentTenant) &&
+        p.genuinenessStatus === 'verified'
+    );
   },
 
   async getPropertyById(id: string): Promise<Property> {
@@ -67,6 +72,8 @@ export const propertyService = {
       ...data,
       id: `prop_${Date.now()}`,
       landlordId: landlordId || data.landlordId || 'usr_landlord_1',
+      genuinenessStatus: 'pending_check',
+      isVerified: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -99,6 +106,19 @@ export const propertyService = {
     properties = (all || []).filter((p) => p.id !== id);
     // Persist directly to src/data/properties.json on disk!
     await saveJsonData('properties', properties);
+  },
+
+  async verifyPropertyGenuineness(
+    id: string,
+    status: 'verified' | 'flagged_discrepancy'
+  ): Promise<Property> {
+    const verifiedDeedHash =
+      status === 'verified' ? `rec_${Date.now()}_sha256_cadastral_registry_ok` : undefined;
+    return this.updateProperty(id, {
+      genuinenessStatus: status,
+      isVerified: status === 'verified',
+      verifiedDeedHash,
+    });
   },
 };
 

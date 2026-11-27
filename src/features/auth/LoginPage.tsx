@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LogIn, KeyRound, Mail, UserCheck, AlertCircle, Sparkles, Building2, User } from 'lucide-react';
+import { LogIn, KeyRound, Mail, UserCheck, AlertCircle, Sparkles, Building2, User, ShieldCheck } from 'lucide-react';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setCredentials } from '../../store/slices/authSlice';
 import { addToast } from '../../store/slices/uiSlice';
@@ -12,8 +12,8 @@ import { authService } from '../../services/authService';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  role: z.enum(['LANDLORD', 'TENANT']),
+  password: z.string().min(1, 'Password is required'),
+  role: z.enum(['LANDLORD', 'TENANT', 'ADMIN', 'admin', 'landlord', 'tenant']).optional(),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -46,10 +46,13 @@ export const LoginPage: React.FC = () => {
   const onSubmit = async (values: LoginFormValues) => {
     setErrorMessage(null);
     try {
+      const isTypedAdmin = values.email.trim().toLowerCase() === 'admin@srpi.test';
+      const roleToSubmit = isTypedAdmin ? 'ADMIN' : values.role;
+
       const { user, token } = await authService.login({
         email: values.email,
         password: values.password,
-        role: values.role,
+        role: roleToSubmit,
       });
 
       dispatch(setCredentials({ user, token }));
@@ -61,9 +64,16 @@ export const LoginPage: React.FC = () => {
         })
       );
 
+      const normalizedRole = user.role.toLowerCase();
+      const defaultDest =
+        normalizedRole === 'admin'
+          ? '/admin/dashboard'
+          : normalizedRole === 'tenant'
+          ? '/tenant'
+          : '/dashboard';
+
       const destination =
-        (location.state as { from?: { pathname: string } })?.from?.pathname ||
-        (user.role === 'LANDLORD' ? '/dashboard' : '/tenant');
+        (location.state as { from?: { pathname: string } })?.from?.pathname || defaultDest;
       navigate(destination, { replace: true });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Invalid credentials. Please try again.';
@@ -97,28 +107,39 @@ export const LoginPage: React.FC = () => {
         <label className="block text-xs font-semibold text-slate-300 mb-2">
           Select Role
         </label>
-        <div className="grid grid-cols-2 gap-2 p-1 bg-slate-900/80 rounded-xl border border-slate-700">
+        <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-900/80 rounded-xl border border-slate-700">
           <button
             type="button"
             onClick={() => handleQuickFill('Unnati.lock@realtycorp.com', 'LANDLORD')}
-            className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all ${
-              selectedRole === 'LANDLORD'
+            className={`py-2 px-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+              selectedRole?.toUpperCase() === 'LANDLORD'
                 ? 'bg-emerald-600 text-white shadow-md'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <UserCheck size={14} /> Landlord
+            <Building2 size={13} /> Landlord
           </button>
           <button
             type="button"
             onClick={() => handleQuickFill('Anushka.miller@example.com', 'TENANT')}
-            className={`py-2 px-3 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all ${
-              selectedRole === 'TENANT'
+            className={`py-2 px-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+              selectedRole?.toUpperCase() === 'TENANT'
                 ? 'bg-emerald-600 text-white shadow-md'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <UserCheck size={14} /> Tenant
+            <User size={13} /> Tenant
+          </button>
+          <button
+            type="button"
+            onClick={() => handleQuickFill('admin@srpi.test', 'ADMIN')}
+            className={`py-2 px-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+              selectedRole?.toUpperCase() === 'ADMIN'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-emerald-300'
+            }`}
+          >
+            <ShieldCheck size={13} /> Admin
           </button>
         </div>
       </div>
@@ -178,14 +199,21 @@ export const LoginPage: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full mt-2 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2 active:scale-98"
+          className="w-full mt-2 py-2.5 px-4 rounded-lg text-white font-semibold text-sm shadow-md transition-colors flex items-center justify-center gap-2 active:scale-98 bg-emerald-600 hover:bg-emerald-700"
         >
           {isSubmitting ? (
             <span>Signing in...</span>
           ) : (
             <>
               <LogIn size={16} />
-              <span>Sign in as {selectedRole}</span>
+              <span>
+                Sign in as{' '}
+                {selectedRole?.toUpperCase() === 'ADMIN'
+                  ? 'Admin'
+                  : selectedRole?.toUpperCase() === 'TENANT'
+                  ? 'Tenant'
+                  : 'Landlord'}
+              </span>
             </>
           )}
         </button>
@@ -207,7 +235,13 @@ export const LoginPage: React.FC = () => {
             >
               <div className="flex items-center gap-2 min-w-0">
                 <div className="w-6 h-6 rounded-full bg-emerald-900/50 text-emerald-300 border border-emerald-700/50 flex items-center justify-center text-[10px] font-bold shrink-0">
-                  {acc.role === 'LANDLORD' ? <Building2 size={12} /> : <User size={12} />}
+                  {acc.role.toLowerCase() === 'admin' ? (
+                    <ShieldCheck size={12} className="text-emerald-400" />
+                  ) : acc.role.toUpperCase() === 'LANDLORD' ? (
+                    <Building2 size={12} />
+                  ) : (
+                    <User size={12} />
+                  )}
                 </div>
                 <div className="truncate">
                   <span className="font-semibold text-slate-200 group-hover:text-emerald-300 block truncate">
@@ -218,11 +252,7 @@ export const LoginPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-sm uppercase shrink-0 ${
-                acc.role === 'LANDLORD'
-                  ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/50'
-                  : 'bg-teal-950 text-teal-400 border border-teal-800/50'
-              }`}>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-sm uppercase shrink-0 bg-emerald-950 text-emerald-300 border border-emerald-800/50">
                 {acc.role}
               </span>
             </button>

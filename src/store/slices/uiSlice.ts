@@ -84,6 +84,9 @@ export const uiSlice = createSlice({
     toggleSidebar: (state) => {
       state.sidebarCollapsed = !state.sidebarCollapsed;
     },
+    setSidebarCollapsed: (state, action: PayloadAction<boolean>) => {
+      state.sidebarCollapsed = action.payload;
+    },
   },
 });
 
@@ -95,6 +98,7 @@ export const {
   openModal,
   closeModal,
   toggleSidebar,
+  setSidebarCollapsed,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

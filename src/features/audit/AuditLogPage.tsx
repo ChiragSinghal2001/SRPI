@@ -124,7 +124,7 @@ export const AuditLogPage: React.FC = () => {
                     <div className="flex items-center gap-1.5">
                       <span
                         className={`w-2 h-2 rounded-full ${log.actorRole === 'SYSTEM'
-                          ? 'bg-purple-500'
+                          ? 'bg-emerald-500'
                           : log.actorRole === 'LANDLORD'
                             ? 'bg-emerald-500'
                             : 'bg-teal-500'

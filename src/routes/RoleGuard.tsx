@@ -16,9 +16,15 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ allowedRoles, children }) 
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(role)) {
+  const normalizedRole = role.toLowerCase();
+  const normalizedAllowed = allowedRoles?.map((r) => r.toLowerCase());
+
+  if (normalizedAllowed && !normalizedAllowed.includes(normalizedRole)) {
     // Redirect to their appropriate role home
-    if (role === 'TENANT') {
+    if (normalizedRole === 'admin') {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
+    if (normalizedRole === 'tenant') {
       return <Navigate to="/tenant" replace />;
     }
     return <Navigate to="/dashboard" replace />;
